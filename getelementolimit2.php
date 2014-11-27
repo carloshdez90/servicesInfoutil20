@@ -102,7 +102,7 @@ switch ($idsubcat) {
     
 
     break;	
-    case '7':
+   /* case '7':
          $registros=mysql_query("SELECT id, name, address FROM $tabla[$idsubcat] limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
          $filas=array();
@@ -113,7 +113,7 @@ switch ($idsubcat) {
          echo json_encode($filas);
     
 
-    break;
+    break;*/
      case '31':
          $registros=mysql_query("SELECT id, description FROM $tabla[$idsubcat] limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
@@ -169,7 +169,35 @@ switch ($idsubcat) {
             $filas3= array();
             foreach ($filas as $key => $value) {
                     # code...
-                $cadena=$value['name'].' '.$value['gradoAcademico'].' '.$value['year'].' '.$value['turn'].' '.$value['quota'];
+                $cadena=$value['name'].', '.$value['gradoAcademico'].', '.$value['year'].', '.$value['turn'].', '.$value['quota'];
+                $filas2['id']=$value['id'];
+                $filas2['name']=$cadena;
+                $filas3[]=$filas2;
+                /*array_push($filas2,$value['id'] );
+                array_push($filas2, $cadena);*/
+            }
+
+         echo json_encode($filas3);
+    break;
+    case '7':
+         $registros=mysql_query("SELECT  universities.id,  universities.name , carreers.name as carrera, universities.address 
+                                from  universities 
+                                inner join carreers on  universities.id = carreers.university_id  
+                                limit $limit, 10", $conexion) or
+         die(json_encode($respuesta));
+         $filas=array();
+            while ($reg=mysql_fetch_assoc($registros))
+            {
+                
+                $filas[]=array_map('utf8_encode', $reg);
+
+            }
+            
+            $filas2 = array();
+            $filas3= array();
+            foreach ($filas as $key => $value) {
+                    # code...
+                $cadena=$value['name'].', '.$value['carrera'].', '.$value['address'];
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
