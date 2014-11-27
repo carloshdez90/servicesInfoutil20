@@ -16,10 +16,11 @@ recibe como parametros: el nombre de la tabla de la sub categoría.
 	
 	$respuesta=array('resultado'=>2);
 	json_encode($respuesta);
+
 	$conexion=mysql_connect($servidor,$usuario,$password) or
 	die ("Problemas en la conexion");
 
-    mysql_set_charset('utf8');
+    //mysql_set_charset('utf8');
 
 	mysql_select_db($baseDatos,$conexion)
 	or die("Problemas en la seleccion de la base de datos");
