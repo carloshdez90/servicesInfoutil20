@@ -174,6 +174,32 @@ $tabla = array(
     
 
     break;
+     case '9':
+       
+         $registros=mysql_query("SELECT id, name FROM products WHERE products.id=$idelemento ", $conexion) or
+         die(json_encode($respuesta));
+
+         $filas=array();
+            while ($reg=mysql_fetch_assoc($registros))
+            {
+                $filas[]=array_map('utf8_encode', $reg);
+            }
+         
+         $registros2=mysql_query("SELECT ELEMENTO.PROMEVALUACION, COMENTARIO.NOMBREUSUARIO, COMENTARIO.COMENTARIO, COMENTARIO.EVALUACION, COMENTARIO.FECHA FROM ELEMENTO, COMENTARIO WHERE ELEMENTO.IDELEMENTO=$idelemento AND COMENTARIO.IDCATEGORIA=$idcat AND COMENTARIO.IDSUBCATEGORIA=$idsubcat AND COMENTARIO.IDELEMENTO=$idelemento AND COMENTARIO.TIPO=$tipo ORDER BY COMENTARIO.FECHA DESC  LIMIT $limit, 10", $conexion) or
+         die(json_encode($respuesta));
+
+        $filas2=array();
+            while ($reg2=mysql_fetch_assoc($registros2))
+             {
+                $filas2[]=array_map('utf8_encode', $reg2);
+             }
+        $descripcion=array('id'=>'id','name'=>'nombre');      
+
+         $answ=array('Elemento'=>$filas,'Comentarios'=>$filas2,'Descripcion'=>$descripcion);
+            echo json_encode($answ);
+    
+
+    break;
     default:
          $registros=mysql_query("SELECT id, name FROM $tabla[$idsubcat] WHERE $tabla[$idsubcat].id=$idelemento ", $conexion) or
          die(json_encode($respuesta));
