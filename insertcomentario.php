@@ -24,18 +24,22 @@
         mysql_select_db($baseDatos,$conexion)
         or die("Problemas en la seleccion de la base de datos");
 
-       mysql_query("UPDATE ELEMENTO 
+       $res2=mysql_query("UPDATE ELEMENTO 
                         SET PROMEVALUACION = ( PROMEVALUACION + '$evaluacion' ) /2 
                         WHERE IDELEMENTO = '$idelemento' 
                         AND IDCATEGORIA ='$idcategoria' 
                         AND IDSUBCATEGORIA ='$idsubcategoria'", $conexion) 
         or die(json_encode($respuesta));
 
-        $resultado=mysql_query("insert into COMENTARIO (IDELEMENTO, IDSUBCATEGORIA, IDCATEGORIA, NOMBREUSUARIO, COMENTARIO, EVALUACION, TIPO)
-        values('$idelemento','$idsubcategoria','$idcategoria','$nombreusuario', '$comentario', '$evaluacion', '$tipo')",$conexion) or
-        die( json_encode($respuesta));
+        $resultado=mysql_query("INSERT INTO COMENTARIO 
+                                (IDELEMENTO, IDSUBCATEGORIA, IDCATEGORIA, 
+                                NOMBREUSUARIO, COMENTARIO, EVALUACION, TIPO)
+                                values('$idelemento','$idsubcategoria',
+                                    '$idcategoria','$nombreusuario', 
+                                    '$comentario', '$evaluacion', '$tipo')",
+        $conexion) or die( json_encode($respuesta));
         //Si la respuesta es correcta enviamos 1 y sino enviamos 0
-        if($resultado)
+        if($resultado && $res2)
         $respuesta=array('resultado'=>1);
 
         echo json_encode($respuesta);

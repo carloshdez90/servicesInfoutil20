@@ -90,7 +90,22 @@ $tabla = array(
                 $filas[]=array_map('utf8_encode', $reg);
              }
 
-        $registros2=mysql_query("SELECT ELEMENTO.PROMEVALUACION, COMENTARIO.NOMBREUSUARIO, COMENTARIO.COMENTARIO, COMENTARIO.EVALUACION, COMENTARIO.FECHA FROM ELEMENTO, COMENTARIO WHERE ELEMENTO.IDELEMENTO=$idelemento AND COMENTARIO.IDCATEGORIA=$idcat AND COMENTARIO.IDSUBCATEGORIA=$idsubcat AND COMENTARIO.IDELEMENTO=$idelemento AND COMENTARIO.TIPO=$tipo ORDER BY COMENTARIO.FECHA DESC  LIMIT $limit,30", $conexion) or
+        $registros2=mysql_query("SELECT ELEMENTO.PROMEVALUACION, 
+                                COMENTARIO.NOMBREUSUARIO, 
+                                COMENTARIO.COMENTARIO, 
+                                COMENTARIO.EVALUACION, 
+                                COMENTARIO.FECHA 
+                                FROM ELEMENTO, COMENTARIO 
+                                WHERE ELEMENTO.IDELEMENTO=$idelemento 
+                                AND ELEMENTO.IDSUBCATEGORIA=$idsubcat 
+                                AND ELEMENTO.IDCATEGORIA=$idcat 
+                                AND COMENTARIO.IDCATEGORIA=$idcat 
+                                AND COMENTARIO.IDSUBCATEGORIA=$idsubcat 
+                                AND COMENTARIO.IDELEMENTO=$idelemento 
+                                AND COMENTARIO.TIPO=$tipo 
+                                ORDER BY COMENTARIO.FECHA 
+                                DESC  LIMIT $limit,30", $conexion) or
+
         die(json_encode($respuesta));
 
         $filas2=array();
@@ -115,9 +130,23 @@ $tabla = array(
              {
                 $filas[]=array_map('utf8_encode', $reg);
              }
-        $registros2=mysql_query("SELECT ELEMENTO.PROMEVALUACION, COMENTARIO.NOMBREUSUARIO, COMENTARIO.COMENTARIO, COMENTARIO.EVALUACION, COMENTARIO.FECHA FROM ELEMENTO, COMENTARIO WHERE ELEMENTO.IDELEMENTO=$idelemento AND COMENTARIO.IDCATEGORIA=$idcat AND COMENTARIO.IDSUBCATEGORIA=$idsubcat AND COMENTARIO.IDELEMENTO=$idelemento AND COMENTARIO.TIPO=$tipo ORDER BY COMENTARIO.FECHA DESC  LIMIT $limit,30", $conexion) or
-        die(json_encode($respuesta));
+       $registros2=mysql_query("SELECT ELEMENTO.PROMEVALUACION, 
+                                COMENTARIO.NOMBREUSUARIO, 
+                                COMENTARIO.COMENTARIO, 
+                                COMENTARIO.EVALUACION, 
+                                COMENTARIO.FECHA 
+                                FROM ELEMENTO, COMENTARIO 
+                                WHERE ELEMENTO.IDELEMENTO=$idelemento 
+                                AND ELEMENTO.IDSUBCATEGORIA=$idsubcat 
+                                AND ELEMENTO.IDCATEGORIA=$idcat 
+                                AND COMENTARIO.IDCATEGORIA=$idcat 
+                                AND COMENTARIO.IDSUBCATEGORIA=$idsubcat 
+                                AND COMENTARIO.IDELEMENTO=$idelemento 
+                                AND COMENTARIO.TIPO=$tipo 
+                                ORDER BY COMENTARIO.FECHA 
+                                DESC  LIMIT $limit,30", $conexion) or
 
+        die(json_encode($respuesta));
         $filas2=array();
             while ($reg2=mysql_fetch_assoc($registros2))
              {
@@ -140,7 +169,22 @@ $tabla = array(
                 $filas[]=array_map('utf8_encode', $reg);
              }
 
-        $registros2=mysql_query("SELECT ELEMENTO.PROMEVALUACION, COMENTARIO.NOMBREUSUARIO, COMENTARIO.COMENTARIO, COMENTARIO.EVALUACION, COMENTARIO.FECHA FROM ELEMENTO, COMENTARIO WHERE ELEMENTO.IDELEMENTO=$idelemento AND COMENTARIO.IDCATEGORIA=$idcat AND COMENTARIO.IDSUBCATEGORIA=$idsubcat AND COMENTARIO.IDELEMENTO=$idelemento AND COMENTARIO.TIPO=$tipo ORDER BY COMENTARIO.FECHA DESC  LIMIT $limit,30", $conexion) or
+       $registros2=mysql_query("SELECT ELEMENTO.PROMEVALUACION, 
+                                COMENTARIO.NOMBREUSUARIO, 
+                                COMENTARIO.COMENTARIO, 
+                                COMENTARIO.EVALUACION, 
+                                COMENTARIO.FECHA 
+                                FROM ELEMENTO, COMENTARIO 
+                                WHERE ELEMENTO.IDELEMENTO=$idelemento 
+                                AND ELEMENTO.IDSUBCATEGORIA=$idsubcat 
+                                AND ELEMENTO.IDCATEGORIA=$idcat 
+                                AND COMENTARIO.IDCATEGORIA=$idcat 
+                                AND COMENTARIO.IDSUBCATEGORIA=$idsubcat 
+                                AND COMENTARIO.IDELEMENTO=$idelemento 
+                                AND COMENTARIO.TIPO=$tipo 
+                                ORDER BY COMENTARIO.FECHA 
+                                DESC  LIMIT $limit,30", $conexion) or
+
         die(json_encode($respuesta));
 
         $filas2=array();
@@ -166,9 +210,23 @@ $tabla = array(
                 $filas[]=array_map('utf8_encode', $reg);
              }
 
-        $registros2=mysql_query("SELECT ELEMENTO.PROMEVALUACION, COMENTARIO.NOMBREUSUARIO, COMENTARIO.COMENTARIO, COMENTARIO.EVALUACION, COMENTARIO.FECHA FROM ELEMENTO, COMENTARIO WHERE ELEMENTO.IDELEMENTO=$idelemento AND COMENTARIO.IDCATEGORIA=$idcat AND COMENTARIO.IDSUBCATEGORIA=$idsubcat AND COMENTARIO.IDELEMENTO=$idelemento AND COMENTARIO.TIPO=$tipo ORDER BY COMENTARIO.FECHA DESC  LIMIT $limit,30", $conexion) or
-        die(json_encode($respuesta));
+        $registros2=mysql_query("SELECT ELEMENTO.PROMEVALUACION, 
+                                COMENTARIO.NOMBREUSUARIO, 
+                                COMENTARIO.COMENTARIO, 
+                                COMENTARIO.EVALUACION, 
+                                COMENTARIO.FECHA 
+                                FROM ELEMENTO, COMENTARIO 
+                                WHERE ELEMENTO.IDELEMENTO=$idelemento 
+                                AND ELEMENTO.IDSUBCATEGORIA=$idsubcat 
+                                AND ELEMENTO.IDCATEGORIA=$idcat 
+                                AND COMENTARIO.IDCATEGORIA=$idcat 
+                                AND COMENTARIO.IDSUBCATEGORIA=$idsubcat 
+                                AND COMENTARIO.IDELEMENTO=$idelemento 
+                                AND COMENTARIO.TIPO=$tipo 
+                                ORDER BY COMENTARIO.FECHA 
+                                DESC  LIMIT $limit,30", $conexion) or
 
+        die(json_encode($respuesta));
         $filas2=array();
             while ($reg2=mysql_fetch_assoc($registros2))
              {
@@ -193,8 +251,23 @@ $tabla = array(
                 $filas[]=array_map('utf8_encode', $reg);
             }
          
-         $registros2=mysql_query("SELECT ELEMENTO.PROMEVALUACION, COMENTARIO.NOMBREUSUARIO, COMENTARIO.COMENTARIO, COMENTARIO.EVALUACION, COMENTARIO.FECHA FROM ELEMENTO, COMENTARIO WHERE ELEMENTO.IDELEMENTO=$idelemento AND COMENTARIO.IDCATEGORIA=$idcat AND COMENTARIO.IDSUBCATEGORIA=$idsubcat AND COMENTARIO.IDELEMENTO=$idelemento AND COMENTARIO.TIPO=$tipo ORDER BY COMENTARIO.FECHA DESC  LIMIT $limit,30", $conexion) or
-         die(json_encode($respuesta));
+       $registros2=mysql_query("SELECT ELEMENTO.PROMEVALUACION, 
+                                COMENTARIO.NOMBREUSUARIO, 
+                                COMENTARIO.COMENTARIO, 
+                                COMENTARIO.EVALUACION, 
+                                COMENTARIO.FECHA 
+                                FROM ELEMENTO, COMENTARIO 
+                                WHERE ELEMENTO.IDELEMENTO=$idelemento 
+                                AND ELEMENTO.IDSUBCATEGORIA=$idsubcat 
+                                AND ELEMENTO.IDCATEGORIA=$idcat 
+                                AND COMENTARIO.IDCATEGORIA=$idcat 
+                                AND COMENTARIO.IDSUBCATEGORIA=$idsubcat 
+                                AND COMENTARIO.IDELEMENTO=$idelemento 
+                                AND COMENTARIO.TIPO=$tipo 
+                                ORDER BY COMENTARIO.FECHA 
+                                DESC  LIMIT $limit,30", $conexion) or
+
+        die(json_encode($respuesta));
 
         $filas2=array();
             while ($reg2=mysql_fetch_assoc($registros2))
@@ -218,8 +291,23 @@ $tabla = array(
                 $filas[]=array_map('utf8_encode', $reg);
             }
          
-         $registros2=mysql_query("SELECT ELEMENTO.PROMEVALUACION, COMENTARIO.NOMBREUSUARIO, COMENTARIO.COMENTARIO, COMENTARIO.EVALUACION, COMENTARIO.FECHA FROM ELEMENTO, COMENTARIO WHERE ELEMENTO.IDELEMENTO=$idelemento AND COMENTARIO.IDCATEGORIA=$idcat AND COMENTARIO.IDSUBCATEGORIA=$idsubcat AND COMENTARIO.IDELEMENTO=$idelemento AND COMENTARIO.TIPO=$tipo ORDER BY COMENTARIO.FECHA DESC  LIMIT $limit,30", $conexion) or
-         die(json_encode($respuesta));
+       $registros2=mysql_query("SELECT ELEMENTO.PROMEVALUACION, 
+                                COMENTARIO.NOMBREUSUARIO, 
+                                COMENTARIO.COMENTARIO, 
+                                COMENTARIO.EVALUACION, 
+                                COMENTARIO.FECHA 
+                                FROM ELEMENTO, COMENTARIO 
+                                WHERE ELEMENTO.IDELEMENTO=$idelemento 
+                                AND ELEMENTO.IDSUBCATEGORIA=$idsubcat 
+                                AND ELEMENTO.IDCATEGORIA=$idcat 
+                                AND COMENTARIO.IDCATEGORIA=$idcat 
+                                AND COMENTARIO.IDSUBCATEGORIA=$idsubcat 
+                                AND COMENTARIO.IDELEMENTO=$idelemento 
+                                AND COMENTARIO.TIPO=$tipo 
+                                ORDER BY COMENTARIO.FECHA 
+                                DESC  LIMIT $limit,30", $conexion) or
+
+        die(json_encode($respuesta));
 
         $filas2=array();
             while ($reg2=mysql_fetch_assoc($registros2))

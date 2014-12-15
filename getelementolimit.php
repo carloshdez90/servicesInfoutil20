@@ -595,7 +595,7 @@ product_brands.name as marca,
                         '<br/><strong>Teléfono: </strong>'.$value['phone'].
                         '<br/><strong>Área: </strong>'.$value['area'];
                 }
-                $filas2['id']=$value['id'];
+                $filas2['id']=$value['delegation_id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
                 /*array_push($filas2,$value['id'] );
