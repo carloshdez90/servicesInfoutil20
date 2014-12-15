@@ -1,0 +1,16 @@
+subcategorias mdificadas con indices
+archivos:
+	-getelementolimit.php
+	-getelementolimit_perfil.php
+
+6 // escuelas
+7 //Carreras universitarias
+9 // precios de Alimentos
+14 // Útiles escolares
+19 // Empresas Multadas
+21 // Precios de Fertilizantes
+27 // Precios de Electricidad 
+39 // Transferencia FODES a municipalidades
+38 //tarifario cultural
+
+

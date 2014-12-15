@@ -226,10 +226,13 @@ switch ($idsubcat) {
           
             $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                 $cadena='<strong>Institución: </strong>'.$value['name'].'<br/><strong> Nivel: </strong>'.$value['gradoAcademico'].'<br/> <strong>Año: </strong>'.$value['year'].'<br/><strong> Turno: </strong>'.$value['turn'].'<br/><strong>Cuota: $</strong>'.$value['quota'];
-               $filas2['id']=$value['id'];
+                $filas2['indice']=$count;                
+                $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
                 /*array_push($filas2,$value['id'] );
@@ -254,9 +257,12 @@ switch ($idsubcat) {
             
             $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                 $cadena='<strong>Universidad: </strong>'.$value['name'].'<br><strong>Carrera:</strong> '.$value['carrera'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -290,9 +296,12 @@ product_brands.name as marca,
             
             $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                 $cadena='<strong>Producto: </strong>'.$value['name'].'<br/><strong>Marca: </strong>'.$value['marca'].'<br/><strong>Establecimiento: </strong>'.$value['establecimiento'].'<br><strong>Presentación: </strong>'.$value['presentacion'].'<br/><strong>Precio: </strong>$:'.$value['price'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -359,9 +368,12 @@ product_brands.name as marca,
             
             $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                 $cadena='<strong>Producto: </strong>'.$value['name'].'<br/><strong>Marca: </strong>'.$value['marca'].'<br/><strong>Establecimiento: </strong>'.$value['establecimiento'].'<br><strong>Presentación: </strong>'.$value['presentacion'].'<br/><strong>Precio: </strong>$:'.$value['price'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -385,9 +397,12 @@ product_brands.name as marca,
             }
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                 $cadena='<strong>Nombre: </strong>'.$value['name'].'<br/><strong>Año: </strong>'.$value['year'].'<br/><strong>Mes: </strong>'.$mes[$value['month']].'<br/><strong>Multa: $</strong>'.$value['penalties_amount'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -421,9 +436,12 @@ product_brands.name as marca,
             
             $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                 $cadena='<strong>Producto: </strong>'.$value['name'].'<br/><strong>Marca: </strong>'.$value['marca'].'<br/><strong>Establecimiento: </strong>'.$value['establecimiento'].'<br><strong>Presentación: </strong>'.$value['presentacion'].'<br/><strong>Precio: </strong>$:'.$value['price'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -454,13 +472,16 @@ product_brands.name as marca,
             }
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                 $cadena='<strong>Compañia: </strong>'.$value['company'].
                         '<br/><strong>Tipo de Cargo: </strong>'.$value['tipocarga'].
                         '<br/><strong>Tipo de Tarifa: </strong>'.$value['tipotarifa'].
                         '<br/><strong>Precio: $ </strong>'.$value['price'].
                         '<br/><strong>Unidad: </strong>'.$value['unit'];
+                $filas2['index']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -512,11 +533,15 @@ product_brands.name as marca,
             }
             $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
+
                 $cadena='<strong>Municipio: </strong>'.$value['name'].
                         '<br/><strong>Enero-Noviembre: </strong>'.money_format('%(#10n', $value['period_1']).
                         '<br/><strong>Diciembre: </strong>'.money_format('%(#10n', $value['period_2']);
+                $filas2['index']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -1159,14 +1184,17 @@ product_brands.name as marca,
             }
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                 $cadena='<strong>Lugar: </strong>'.$value['name'].
                         '<br/><strong>Tipo: </strong>'.$value['tipo'].
                         '<br/><strong>Descripción: </strong>'.$value['description'].
                         '<br/><strong>Precio : </strong>'.money_format('%(#10n',$value['min_price']).
                         '<br/><strong>Dirección: </strong>'.$value['address'].
                         '<br/><strong>Teléfono: </strong>'.$value['phone'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
