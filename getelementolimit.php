@@ -1230,69 +1230,31 @@ product_brands.name as marca,
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
-                /*array_push($filas2,$value['id'] );
-                array_push($filas2, $cadena);*/
             }
 
          echo json_encode($filas3);
     break;
 
-     case '44':
+     case '44'://Festividades
              
          $filas= array();
          echo json_encode($filas);
     break;
 
-    /*case '21':
-         $registros=mysql_query("SELECT id, name FROM $tabla[$idsubcat] where category_id=21 limit $limit, 10", $conexion) or
-         die(json_encode($respuesta));
-         $filas=array();
-            while ($reg=mysql_fetch_assoc($registros))
-            {
-                $filas[]=array_map('utf8_encode', $reg);
-            }
+    case '45'://Coros y Orquestas
+             
+         $filas= array();
          echo json_encode($filas);
-    
-
-    break;  */
-   /* case '7':
-         $registros=mysql_query("SELECT id, name, address FROM $tabla[$idsubcat] limit $limit, 10", $conexion) or
-         die(json_encode($respuesta));
-         $filas=array();
-            while ($reg=mysql_fetch_assoc($registros))
-            {
-                $filas[]=array_map('utf8_encode', $reg);
-            }
-         echo json_encode($filas);
-    
-
-    break;*/
-     
-     case '38':
-         $registros=mysql_query("SELECT id, name FROM $tabla[$idsubcat] limit $limit, 10", $conexion) or
-         die(json_encode($respuesta));
-         $filas=array();
-            while ($reg=mysql_fetch_assoc($registros))
-            {
-                $filas[]=array_map('utf8_encode', $reg);
-            }
-         $filas2 = array();
-            $filas3= array();
-            foreach ($filas as $key => $value) {
-                    # code...
-                $cadena='<strong>Lugar: </strong>'.$value['name'];
-                $filas2['id']=$value['id'];
-                $filas2['name']=$cadena;
-                $filas3[]=$filas2;
-                /*array_push($filas2,$value['id'] );
-                array_push($filas2, $cadena);*/
-            }
-
-         echo json_encode($filas3);
-    
-
     break;
-    default://26, 
+
+
+     case '46'://Cultura tradicional
+             
+         $filas= array();
+         echo json_encode($filas);
+    break;
+
+    default://EN CASO DE EXISTIR LA TABLA Y TENGA ID Y NOMBRE SE EJECUTA ESTE CASO
          $registros=mysql_query("SELECT id, name FROM $tabla[$idsubcat] limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -1303,13 +1265,10 @@ product_brands.name as marca,
         $filas2 = array();
             $filas3= array();
             foreach ($filas as $key => $value) {
-                    # code...
                 $cadena='<strong>Nombre: </strong>'.$value['name'];
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
-                /*array_push($filas2,$value['id'] );
-                array_push($filas2, $cadena);*/
             }
 
          echo json_encode($filas3);
