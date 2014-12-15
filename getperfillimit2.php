@@ -67,8 +67,16 @@ $tabla = array(
     45  => "choirs",
     46  => "cultures"
 );
-        mysql_query("INSERT INTO ELEMENTO SET VISITAS=1, IDELEMENTO=$idelemento, IDSUBCATEGORIA=$idsubcat, IDCATEGORIA=$idcat, CANTCOMENTARIOS=0, PROMEVALUACION=0, DENUNCIAS=0 ON DUPLICATE KEY UPDATE VISITAS=VISITAS+1", $conexion) or die(json_encode($respuesta));
-
+        mysql_query("INSERT INTO ELEMENTO 
+                    SET VISITAS=1, IDELEMENTO=$idelemento, 
+                    IDSUBCATEGORIA=$idsubcat, 
+                    IDCATEGORIA=$idcat, 
+                    CANTCOMENTARIOS=0, 
+                    PROMEVALUACION=0, 
+                    DENUNCIAS=0 
+                    ON DUPLICATE KEY 
+                    UPDATE VISITAS=VISITAS+1", 
+                    $conexion) or die(json_encode($respuesta));
 	switch ($idsubcat) {
     case '2':
        //        mysql_query("UPDATE ELEMENTO SET VISITAS=VISITAS+1 WHERE IDSUBCATEGORIA=$idsubcat AND IDELEMENTO=$idelemento", $conexion) or die(json_encode($respuesta));

@@ -24,11 +24,9 @@
         mysql_select_db($baseDatos,$conexion)
         or die("Problemas en la seleccion de la base de datos");
 
-       mysql_query("UPDATE ELEMENTO 
-                        SET PROMEVALUACION = ( PROMEVALUACION + '$evaluacion' ) /2 
-                        WHERE IDELEMENTO = '$idelemento' 
-                        AND IDCATEGORIA ='$idcategoria' 
-                        AND IDSUBCATEGORIA ='$idsubcategoria'", $conexion) 
+        mysql_query("UPDATE ELEMENTO SET PROMEVALUACION=(PROMEVALUACION+$evaluacion)/2 
+                where IDELEMENTO=$IDELEMENTO and IDCATEGORIA=$idcategoria 
+                and IDSUBCATEGORIA=$idsubcategoria", $conexion) 
         or die(json_encode($respuesta));
 
         $resultado=mysql_query("insert into COMENTARIO (IDELEMENTO, IDSUBCATEGORIA, IDCATEGORIA, NOMBREUSUARIO, COMENTARIO, EVALUACION, TIPO)
