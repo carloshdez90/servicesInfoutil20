@@ -10,8 +10,6 @@ recibe como parametros: el nombre de la tabla de la sub categoría.
     //header('Content-Type: text/json');
 
     $idsubcat=$_REQUEST['idsubcat'];
-    $idelemento=$_REQUEST['idelemento'];
-    $indice=$_REQUEST['indice'];
     $limit=$_REQUEST['limit'];
     
     $respuesta=array('resultado'=>2);
@@ -90,7 +88,7 @@ switch ($idsubcat) {
        //        mysql_query("UPDATE ELEMENTO SET VISITAS=VISITAS+1 WHERE IDSUBCATEGORIA=$idsubcat AND IDELEMENTO=$idelemento", $conexion) or die(json_encode($respuesta));
 
 
-        $registros=mysql_query("SELECT id, name, quantity, unit, price  FROM $tabla[$idsubcat] where id=$idelemento limit $limit,10 ", $conexion) or
+        $registros=mysql_query("SELECT id, name, quantity, unit, price  FROM $tabla[$idsubcat] limit $limit,10 ", $conexion) or
         die(json_encode($respuesta));
          $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -100,9 +98,12 @@ switch ($idsubcat) {
 
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                 $cadena='<strong>Medicamento: </strong>'.$value['name'].'<br/><strong>Cantidad: </strong> '.$value['quantity'].'<br/><strong>Unidad: </strong> '.$value['unit'].'<br/><strong>Precio:  </strong> $'.$value['price'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -120,7 +121,7 @@ switch ($idsubcat) {
        //        mysql_query("UPDATE ELEMENTO SET VISITAS=VISITAS+1 WHERE IDSUBCATEGORIA=$idsubcat AND IDELEMENTO=$idelemento", $conexion) or die(json_encode($respuesta));
 
 
-         $registros=mysql_query("SELECT id, name, phone, address FROM $tabla[$idsubcat] where id=$idelemento limit $limit,10", $conexion) or
+         $registros=mysql_query("SELECT id, name, phone, address FROM $tabla[$idsubcat] limit $limit,10", $conexion) or
         die(json_encode($respuesta));
         
         $filas=array();
@@ -131,12 +132,15 @@ switch ($idsubcat) {
 
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
+                $count++;
                 if ($value['phone']==NULL) {
                 $cadena='<strong>Nombre: </strong> '.$value['name'].'<br/><strong>Teléfono: </strong>  '.'N/A'.'<br/><strong>Dirección: </strong>  '.$value['address'];
                 }else{
                 $cadena='<strong>Nombre: </strong> '.$value['name'].'<br/><strong>Teléfono: </strong>  '.$value['phone'].'<br/><strong>Dirección: </strong>  '.$value['address'];
                 }
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -154,7 +158,7 @@ switch ($idsubcat) {
        //        mysql_query("UPDATE ELEMENTO SET VISITAS=VISITAS+1 WHERE IDSUBCATEGORIA=$idsubcat AND IDELEMENTO=$idelemento", $conexion) or die(json_encode($respuesta));
 
 
-        $registros=mysql_query("SELECT $tabla[$idsubcat].id, $tabla[$idsubcat].name, $tabla[$idsubcat].register_number, doctor_especialities.name as carrera FROM $tabla[$idsubcat], doctor_especialities WHERE $tabla[$idsubcat].doctor_especiality_id=doctor_especialities.id AND $tabla[$idsubcat].id=$idelemento limit $limit,10 ", $conexion) or
+        $registros=mysql_query("SELECT $tabla[$idsubcat].id, $tabla[$idsubcat].name, $tabla[$idsubcat].register_number, doctor_especialities.name as carrera FROM $tabla[$idsubcat], doctor_especialities WHERE $tabla[$idsubcat].doctor_especiality_id=doctor_especialities.id limit $limit,10 ", $conexion) or
         die(json_encode($respuesta));
         
         $filas=array();
@@ -166,9 +170,12 @@ switch ($idsubcat) {
 
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                 $cadena='<strong>Nombre: </strong>'.$value['name'].'<br/><strong>Número de Registro: </strong>'.$value['register_number'].'<br/><strong>Carrera: </strong>'.$value['carrera'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -183,7 +190,7 @@ switch ($idsubcat) {
 
         break;
          case '15':
-        $registros=mysql_query("SELECT id, name, address, authorized_at, authorization_expire_at FROM $tabla[$idsubcat] where id=$idelemento limit $limit,10", $conexion) or
+        $registros=mysql_query("SELECT id, name, address, authorized_at, authorization_expire_at FROM $tabla[$idsubcat] limit $limit,10", $conexion) or
         die(json_encode($respuesta));
         
         $filas=array();
@@ -195,9 +202,12 @@ switch ($idsubcat) {
 
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                 $cadena='<strong>Nombre: </strong>'.$value['name'].'<br/><strong>Dirección: </strong>'.$value['address'].'<br/><strong>Fecha de autorización: </strong>'.$value['authorized_at'].'<br/><strong>Fecha de expiración de la autorización: </strong>'.$value['authorization_expire_at'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -215,8 +225,7 @@ switch ($idsubcat) {
          $registros=mysql_query("SELECT schools.id, schools.name, school_infos.year, academic_grades.name as gradoAcademico, school_infos.turn, school_infos.quota 
                                 from schools 
                                 inner join school_infos on schools.id = school_infos.school_id 
-                                inner join academic_grades on school_infos.academic_grade_id=academic_grades.id
-                                where schools.id=$idelemento  
+                                inner join academic_grades on school_infos.academic_grade_id=academic_grades.id  
                                 limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
          $filas=array();
@@ -233,12 +242,11 @@ switch ($idsubcat) {
             foreach ($filas as $key => $value) {
                     # code...
                 $count++;
-                if($count==$indice){
                 $cadena='<strong>Institución: </strong>'.$value['name'].'<br/><strong> Nivel: </strong>'.$value['gradoAcademico'].'<br/> <strong>Año: </strong>'.$value['year'].'<br/><strong> Turno: </strong>'.$value['turn'].'<br/><strong>Cuota: $</strong>'.$value['quota'];
+                $filas2['indice']=$count;                
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
-                }
                 /*array_push($filas2,$value['id'] );
                 array_push($filas2, $cadena);*/
             }
@@ -248,8 +256,7 @@ switch ($idsubcat) {
     case '7':
          $registros=mysql_query("SELECT  universities.id,  universities.name , carreers.name as carrera, universities.address 
                                 from  universities 
-                                inner join carreers on  universities.id = carreers.university_id 
-                                where universities.id = $idelemento 
+                                inner join carreers on  universities.id = carreers.university_id  
                                 limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
          $filas=array();
@@ -264,14 +271,13 @@ switch ($idsubcat) {
             $filas3= array();
             $count=0;
             foreach ($filas as $key => $value) {
-                    # code...}
+                    # code...
                 $count++;
-                  if($count==$indice){
                 $cadena='<strong>Universidad: </strong>'.$value['name'].'<br><strong>Carrera:</strong> '.$value['carrera'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
-                }
                 /*array_push($filas2,$value['id'] );
                 array_push($filas2, $cadena);*/
             }
@@ -291,7 +297,6 @@ product_brands.name as marca,
                                 inner join product_categories on products.product_category_id=product_categories.id 
                                 inner join product_brands on product_probes.product_brand_id=product_brands.id
                                 where product_categories.category_id=$idsubcat
-                                and products.id=$idelemento
                                 limit $limit, 10", $conexion) or die(json_encode($respuesta));
              $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -307,12 +312,11 @@ product_brands.name as marca,
             foreach ($filas as $key => $value) {
                     # code...
                 $count++;
-                if ($count==$indice) {
                 $cadena='<strong>Producto: </strong>'.$value['name'].'<br/><strong>Marca: </strong>'.$value['marca'].'<br/><strong>Establecimiento: </strong>'.$value['establecimiento'].'<br><strong>Presentación: </strong>'.$value['presentacion'].'<br/><strong>Precio: </strong>$:'.$value['price'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
-            }
                 /*array_push($filas2,$value['id'] );
                 array_push($filas2, $cadena);*/
             }
@@ -320,7 +324,7 @@ product_brands.name as marca,
          echo json_encode($filas3);
     break;
     case '12':
-           $registros=mysql_query("SELECT id, name, phone, address, auth FROM $tabla[$idsubcat] where id=$idelemento limit $limit,10 ", $conexion) or
+           $registros=mysql_query("SELECT id, name, phone, address, auth FROM $tabla[$idsubcat] limit $limit,10 ", $conexion) or
              die(json_encode($respuesta));
 
              $filas=array();
@@ -331,7 +335,9 @@ product_brands.name as marca,
 
             $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
+                $count++;
                 if ($value['auth']==1) {
                $cadena='<strong>Nombre: </strong>'.$value['name'].'<br/><strong>Teléfono: </strong>'.$value['phone'].'<br/><strong>Dirección: </strong>'.$value['address'].'<br/><strong>autorización: </strong>'.'Autorizado';
                 }else{
@@ -339,6 +345,7 @@ product_brands.name as marca,
                 }
                     # code...
              
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -365,7 +372,6 @@ product_brands.name as marca,
                                 inner join product_categories on products.product_category_id=product_categories.id 
                                 inner join product_brands on product_probes.product_brand_id=product_brands.id
                                 where product_categories.category_id=$idsubcat
-                                and products.id=$idelemento
                                 limit $limit, 10", $conexion) or die(json_encode($respuesta));
              $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -379,14 +385,13 @@ product_brands.name as marca,
             $filas3= array();
             $count=0;
             foreach ($filas as $key => $value) {
+                    # code...
                 $count++;
-                
-                if ($count==$indice) {
                 $cadena='<strong>Producto: </strong>'.$value['name'].'<br/><strong>Marca: </strong>'.$value['marca'].'<br/><strong>Establecimiento: </strong>'.$value['establecimiento'].'<br><strong>Presentación: </strong>'.$value['presentacion'].'<br/><strong>Precio: </strong>$:'.$value['price'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
-                }
                 /*array_push($filas2,$value['id'] );
                 array_push($filas2, $cadena);*/
             }
@@ -398,7 +403,6 @@ product_brands.name as marca,
                             company_penalties.year, company_penalties.month 
                             FROM companies 
                             inner join company_penalties on companies.id=company_penalties.company_id 
-                            where companies.id=$idelemento
                             limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -412,12 +416,11 @@ product_brands.name as marca,
             foreach ($filas as $key => $value) {
                     # code...
                 $count++;
-                if ($count==$indice) {
                 $cadena='<strong>Nombre: </strong>'.$value['name'].'<br/><strong>Año: </strong>'.$value['year'].'<br/><strong>Mes: </strong>'.$mes[$value['month']].'<br/><strong>Multa: $</strong>'.$value['penalties_amount'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
-                }
                 /*array_push($filas2,$value['id'] );
                 array_push($filas2, $cadena);*/
             }
@@ -437,7 +440,6 @@ product_brands.name as marca,
                                 inner join product_categories on products.product_category_id=product_categories.id 
                                 inner join product_brands on product_probes.product_brand_id=product_brands.id
                                 where product_categories.category_id=$idsubcat
-                                and products.id=$idelemento
                                 limit $limit, 10", $conexion) or die(json_encode($respuesta));
              $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -453,12 +455,11 @@ product_brands.name as marca,
             foreach ($filas as $key => $value) {
                     # code...
                 $count++;
-                if ($count==$indice) {
                 $cadena='<strong>Producto: </strong>'.$value['name'].'<br/><strong>Marca: </strong>'.$value['marca'].'<br/><strong>Establecimiento: </strong>'.$value['establecimiento'].'<br><strong>Presentación: </strong>'.$value['presentacion'].'<br/><strong>Precio: </strong>$:'.$value['price'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
-                }
                 /*array_push($filas2,$value['id'] );
                 array_push($filas2, $cadena);*/
             }
@@ -477,7 +478,6 @@ product_brands.name as marca,
                     inner join electricity_companies on electricity_prices.electricity_company_id=electricity_companies.id
                     inner join  electricity_charge_types on electricity_prices.electricity_charge_type_id=electricity_charge_types.id 
                     inner join  electricity_rate_types on electricity_prices.electricity_rate_type_id=electricity_rate_types.id 
-                    where electricity_prices.id=$idelemento
                     limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -491,17 +491,15 @@ product_brands.name as marca,
             foreach ($filas as $key => $value) {
                     # code...
                 $count++;
-                if ($count==$indice) {
-
-                        $cadena='<strong>Compañia: </strong>'.$value['company'].
+                $cadena='<strong>Compañia: </strong>'.$value['company'].
                         '<br/><strong>Tipo de Cargo: </strong>'.$value['tipocarga'].
                         '<br/><strong>Tipo de Tarifa: </strong>'.$value['tipotarifa'].
                         '<br/><strong>Precio: $ </strong>'.$value['price'].
                         '<br/><strong>Unidad: </strong>'.$value['unit'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
-                }
                 /*array_push($filas2,$value['id'] );
                 array_push($filas2, $cadena);*/
             }
@@ -509,7 +507,7 @@ product_brands.name as marca,
          echo json_encode($filas3);
     break;
     case '36':
-        $registros=mysql_query("SELECT id, code, name, kind FROM $tabla[$idsubcat] where id=$idelemento limit $limit, 10", $conexion) or
+        $registros=mysql_query("SELECT id, code, name, kind FROM $tabla[$idsubcat] limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -518,11 +516,14 @@ product_brands.name as marca,
             }
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                 $cadena='<strong>Nombre: </strong>'.$value['name'].
                         '<br/><strong>Código: </strong>'.$value['code'].
                         '<br/><strong>Tipo: </strong>'.$value['kind'];               ;
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -541,7 +542,6 @@ product_brands.name as marca,
                                         FROM fodes_cities_transfer_infos 
                                         inner join cities on fodes_cities_transfer_infos.fodes_cities_transfer_id=cities.id 
                                         inner join fodes_cities_transfers on fodes_cities_transfer_infos.fodes_cities_transfer_id= fodes_cities_transfers.city_id
-                                        where fodes_cities_transfer_infos.id=$idelemento
                                         limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -551,11 +551,15 @@ product_brands.name as marca,
             }
             $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
+
                 $cadena='<strong>Municipio: </strong>'.$value['name'].
                         '<br/><strong>Enero-Noviembre: </strong>'.money_format('%(#10n', $value['period_1']).
                         '<br/><strong>Diciembre: </strong>'.money_format('%(#10n', $value['period_2']);
+                $filas2['index']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -574,7 +578,6 @@ product_brands.name as marca,
                                        FROM civil_organizations 
                                        inner join civil_organization_types 
                                        on civil_organizations.civil_organization_type_id=civil_organization_types.id 
-                                       where civil_organizations.id=$idelemento
                                        limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -584,8 +587,10 @@ product_brands.name as marca,
             }
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                  if ($value['phone']==NULL) {
                     $cadena='<strong>Nombre: </strong>'.$value['name'].
                         '<br/><strong>Direccion: </strong>'.$value['address'].
@@ -598,6 +603,7 @@ product_brands.name as marca,
                         '<br/><strong>Teléfono: </strong>'.$value['phone'].
                         '<br/><strong>Tipo: </strong>'.$value['tipo'];
                 }
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -615,7 +621,6 @@ product_brands.name as marca,
                                         FROM delegation_infos
                                         inner join delegations 
                                         on delegation_infos.delegation_id= delegations.id 
-                                        where delation_infos.delegation_id=$idelemento
                                         group by delegation_infos.delegation_id 
                                         limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
@@ -626,7 +631,9 @@ product_brands.name as marca,
             }
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
+                $count++;
                 if ($value['area']==NULL) {
                     $cadena='<strong>Delegación: </strong>'.$value['name'].
                         '<br/><strong>Teléfono: </strong>'.$value['phone'].
@@ -636,6 +643,7 @@ product_brands.name as marca,
                         '<br/><strong>Teléfono: </strong>'.$value['phone'].
                         '<br/><strong>Área: </strong>'.$value['area'];
                 }
+                $filas2['indice']=$count;
                 $filas2['id']=$value['delegation_id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -655,7 +663,6 @@ product_brands.name as marca,
                                         FROM syndicates
                                         inner join syndicate_categories 
                                         on syndicates.syndicate_category_id=syndicate_categories.id
-                                        where syndicates.id=$idelemento
                                         limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -665,13 +672,16 @@ product_brands.name as marca,
             }
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                 $cadena='<strong>Nombre: </strong>'.$value['name'].
                         '<br/><strong>Acrónimo: </strong>'.$value['acronym'].
                         '<br/><strong>Tipo: </strong>'.$value['tipo'].
                         '<br/><strong>N° de hombres integrantes: </strong>'.$value['total_men'].
                         '<br/><strong>N° de mujeres integrantes: </strong>'.$value['total_women'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -691,7 +701,6 @@ product_brands.name as marca,
                                         FROM cooperatives 
                                         inner join cooperative_types 
                                         on cooperatives.cooperative_type_id=cooperative_types.id 
-                                        where cooperatives.id=$idelemento
                                         limit $limit, 10", $conexion) or
 
          die(json_encode($respuesta));
@@ -702,7 +711,9 @@ product_brands.name as marca,
             }
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
+                $count++;
                 if ($value['phone1']==NULL) {
                     $cadena='<strong>Nombre: </strong>'.$value['name'].
                         '<br/><strong>Acrónimo: </strong>'.$value['acronym'].
@@ -717,6 +728,7 @@ product_brands.name as marca,
                         '<br/><strong>Teléfono: </strong>'.$value['phone1'].
                         '<br/><strong>Tipo: </strong>'.$value['tipo'];
                 }
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -735,7 +747,6 @@ product_brands.name as marca,
                                         FROM delation_infos 
                                         inner join delation_institutions 
                                         on delation_infos.delation_institution_id=delation_institutions.id 
-                                        where delegation_infos.id=$idelemento
                                         limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -745,11 +756,14 @@ product_brands.name as marca,
             }
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                 $cadena='<strong>Nombre: </strong>'.$value['name'].
                         '<strong>Teléfono: </strong>'.$value['phone'].
                         '<strong>Tipo: </strong>'.$value['kind'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -778,7 +792,6 @@ product_brands.name as marca,
                                         refuges.has_toilet 
                                         FROM refuges 
                                         inner join cities on refuges.city_id=cities.id 
-                                        where refuges.id=$idelemento
                                         limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -788,7 +801,9 @@ product_brands.name as marca,
             }
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
+                $count++;
                 if ($value['phone']==NULL) {
                     $cadena='<strong>Dirección: </strong>'.$value['name'].
                         '<br/><strong>Municipio: </strong>'.$value['municipio'].
@@ -809,6 +824,7 @@ product_brands.name as marca,
                         '<br/><strong>Electricidad: </strong>'.$tiene[$value['has_electricity']].
                         '<br/><strong>Letrina: </strong>'.$tiene[$value['has_toilet']];
                 }
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -822,7 +838,6 @@ product_brands.name as marca,
     case '25':
          $registros=mysql_query("SELECT id, code, name, kind, email, phone
                                 FROM risk_prevention_consultants 
-                                where id=$idelemento
                                 limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -832,13 +847,16 @@ product_brands.name as marca,
             }
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                 $cadena='<strong>Nombre: </strong>'.$value['name'].
                         '<br/><strong>Código: </strong>'.$value['code'].
                         '<br/><strong>Tipo: </strong>'.$value['kind'].
                         '<br/><strong>Email: </strong>'.$value['email'].
                         '<br/><strong>Teléfono: </strong>'.$value['phone'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -852,7 +870,6 @@ product_brands.name as marca,
     case '28':
         $registros=mysql_query("SELECT id, name, code1, code2, code3, registered_at
                                 FROM telephone_companies_concessions 
-                                where id=$idelemento
                                 limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -862,11 +879,14 @@ product_brands.name as marca,
             }
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                 $cadena='<strong>Nombre: </strong>'.$value['name'].
                         '<br/><strong>Código: </strong>'.$value['code1'].'-'.$value['code2'].'-'.$value['code3'].
                         '<br/><strong>Fecha de registro: </strong>'.$value['registered_at'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -881,7 +901,6 @@ product_brands.name as marca,
             $registros=mysql_query("SELECT id, name, acronym, resolution_number, 
                                     freq_tx, freq_rx, ab, power, coverage 
                                     FROM radial_frequencies 
-                                    where id=$idelemento
                                     limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -891,8 +910,10 @@ product_brands.name as marca,
             }
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                 $cadena='<strong>Nombre: </strong>'.$value['name'].
                         '<br/><strong>Acrónimo: </strong>'.$value['acronym'].
                         '<br/><strong>N° de resolución: </strong>'.$value['resolution_number'].
@@ -901,6 +922,7 @@ product_brands.name as marca,
                         '<br/><strong>AB: </strong>'.$value['ab'].
                         '<br/><strong>Potencia (W)</strong>'.$value['power'].
                         '<br/><strong>Cobertura: </strong>'.$value['coverage'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -914,7 +936,6 @@ product_brands.name as marca,
     case '30':
             $registros=mysql_query("SELECT id, name, acronym, kind, coverage
                                     FROM radial_concessions 
-                                    where id=$idelemento
                                     limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -924,12 +945,15 @@ product_brands.name as marca,
             }
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                 $cadena='<strong>Nombre: </strong>'.$value['name'].
                         '<br/><strong>Acrónimo: </strong>'.$value['acronym'].
                         '<br/><strong>Tipo: </strong>'.$value['kind'].
                         '<br/><strong>Cobertura: </strong>'.$value['coverage'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -946,7 +970,6 @@ product_brands.name as marca,
                                         end as final , longitude,
                                         responsible
                                         FROM roads 
-                                        where id =$idelemento
                                         limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -956,13 +979,16 @@ product_brands.name as marca,
             }
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                 $cadena='<strong>Nombre: </strong>'.$value['name'].
                         '<br/><strong>Asignado a: </strong>'.$value['responsible'].
                         '<br/><strong>Desde: </strong>'.$value['inicio'].
                         '<br/><strong>Hasta: </strong>'.$value['final'].
                         '<br/><strong>longitud: </strong>'.$value['longitude'].' Kms';
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -976,7 +1002,6 @@ product_brands.name as marca,
     case '33':
         $registros=mysql_query("SELECT id, name, acronym, kind, contact, charge, phone, email, address
                                 FROM disabled_associations  
-                                where id=$idelemento
                                 limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -986,8 +1011,10 @@ product_brands.name as marca,
             }
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                 $cadena='<strong>Nombre: </strong>'.$value['name'].
                         '<br/><strong>Acrónimo: </strong>'.$value['acronym'].
                         '<br/><strong>Tipo: </strong>'.$value['kind'].
@@ -996,6 +1023,7 @@ product_brands.name as marca,
                         '<br/><strong>Teléfono: </strong>'.$value['phone'].
                         '<br/><strong>Email: </strong>'.$value['email'].
                         '<br/><strong>Dirección: </strong>'.$value['address'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -1009,7 +1037,6 @@ product_brands.name as marca,
     case '34':
          $registros=mysql_query("SELECT id, name, phone, email
                                 FROM fovial_companies 
-                                where id=$idelemento
                                 limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -1019,11 +1046,14 @@ product_brands.name as marca,
             }
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                 $cadena='<strong>Nombre: </strong>'.$value['name'].
                         '<br/><strong>Teléfono: </strong>'.$value['phone'].
                         '<br/><strong>Email: </strong>'.$value['email'].
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -1048,7 +1078,6 @@ product_brands.name as marca,
         );
          $registros=mysql_query("SELECT id, name, address, contact_person, contact_phone, contact_email, schedule
                                 FROM woman_cities   
-                                where id=$idelemento
                                 limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -1058,14 +1087,17 @@ product_brands.name as marca,
             }
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                 $cadena='<strong>Nombre: </strong>'.$value['name'].
                         '<br/><strong>Dirección: </strong>'.$value['address'].
                         '<br/><strong>Contacto: </strong>'.$value['contact_person'].
                         '<br/><strong>Email: </strong>'.$value['contact_email'].
                         '<br/><strong>Horario: </strong>'.$value['schedule'].
                         '<br/>'.$info[$value['id']];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -1090,9 +1122,7 @@ product_brands.name as marca,
                                     FROM municipality_infos
                                     INNER JOIN cities ON cities.id = city_id
                                     INNER JOIN municipal_jobs ON municipal_jobs.id = municipality_infos.municipal_job_id
-                                    INNER JOIN political_parties ON political_parties.id = political_party_id 
-                                    where municipality_infos.id=$idelemento
-                                    limit $limit, 10", $conexion) or
+                                    INNER JOIN political_parties ON political_parties.id = political_party_id limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -1101,8 +1131,10 @@ product_brands.name as marca,
             }
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                 $cadena='<strong>Nombre: </strong>'.$value['name'].
                         '<br/><strong>Municipio: </strong>'.$value['ciudad'].
                         '<br/><strong>Puesto: </strong>'.$value['puesto'].
@@ -1111,6 +1143,7 @@ product_brands.name as marca,
                         '<br/><strong>Teléfono: </strong>'.$value['phone'].
                         '<br/><strong>Fax: </strong>'.$value['fax'].
                         '<br/><strong>Dirección: </strong>'.$value['address'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -1125,9 +1158,7 @@ product_brands.name as marca,
     case '23':
     setlocale(LC_MONETARY, 'en_US');
              $registros=mysql_query("SELECT id, name, amount, total_men, total_women
-                                    FROM sports_grants 
-                                    where id=$idelemento
-                                    limit $limit, 10", $conexion) or
+                                    FROM sports_grants limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -1136,12 +1167,15 @@ product_brands.name as marca,
             }
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                 $cadena='<strong>Federación: </strong>'.$value['name'].
                         '<br/><strong>Monto: </strong>'.money_format('%(#10n', $value['amount']).
                         '<br/><strong>Total de hombres: </strong>'.$value['total_men'].
                         '<br/><strong>Total de mujeres: </strong>'.$value['total_women'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -1156,9 +1190,7 @@ product_brands.name as marca,
     case '24':
     setlocale(LC_MONETARY, 'en_US');
              $registros=mysql_query("SELECT id, name, approved_amount, executed_amount, extra_amount
-                                    FROM sports_federation_transfers 
-                                    where id=$idelemento
-                                    limit $limit, 10", $conexion) or
+                                    FROM sports_federation_transfers limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -1167,12 +1199,15 @@ product_brands.name as marca,
             }
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                 $cadena='<strong>Nombre: </strong>'.$value['name'].
                         '<br/><strong>Monto aprobado: </strong>'.money_format('%(#10n',$value['approved_amount']).
                         '<br/><strong>Monto ejecutado: </strong>'.money_format('%(#10n', $value['executed_amount']).
                         '<br/><strong>Ayuda adicional pagada más refuerzo : </strong>'.money_format('%(#10n', $value['extra_amount']);
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -1208,7 +1243,6 @@ product_brands.name as marca,
                             INNER JOIN cultural_fee_types ON cultural_fee_types.id = cultural_fees.cultural_fee_type_id
                             INNER JOIN cultural_fee_price_types ON cultural_fee_price_types.id = cultural_fees.cultural_fee_price_type_id 
                             inner join  cultural_fee_place_contacts on  cultural_fee_place_contacts.cultural_fee_place_id=cultural_fees.id
-                            where cultural_fees.id=$idelemento
                             limit $limit, 10", $conexion) or
 
          die(json_encode($respuesta));
@@ -1223,17 +1257,16 @@ product_brands.name as marca,
             foreach ($filas as $key => $value) {
                     # code...
                 $count++;
-                if ($count==$indice) {
-                        $cadena='<strong>Lugar: </strong>'.$value['name'].
+                $cadena='<strong>Lugar: </strong>'.$value['name'].
                         '<br/><strong>Tipo: </strong>'.$value['tipo'].
                         '<br/><strong>Descripción: </strong>'.$value['description'].
                         '<br/><strong>Precio : </strong>'.money_format('%(#10n',$value['min_price']).
                         '<br/><strong>Dirección: </strong>'.$value['address'].
                         '<br/><strong>Teléfono: </strong>'.$value['phone'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
-                }
                 /*array_push($filas2,$value['id'] );
                 array_push($filas2, $cadena);*/
             }
@@ -1249,7 +1282,6 @@ product_brands.name as marca,
                                     cities.name as municipio 
                                     FROM natives
                                     inner join cities on cities.id=natives.city_id 
-                                    where natives.id=$idelemento
                                     limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -1259,12 +1291,15 @@ product_brands.name as marca,
             }
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                 $cadena='<strong>Nombre: </strong>'.$value['name'].
                         '<br/><strong>Indentidad étnica: </strong>'.$value['ethnic_identity'].
                         '<br/><strong>Descripción: </strong>'.$value['description'].
                         '<br/><strong>Municipio: </strong>'.$value['municipio'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -1276,9 +1311,7 @@ product_brands.name as marca,
     break;
     case '43':
              $registros=mysql_query("SELECT id, name, address, phone, schedule, kind
-                                    FROM libraries 
-                                    where id=$idelemento
-                                    limit $limit, 10", $conexion) or
+                                    FROM libraries limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -1287,13 +1320,16 @@ product_brands.name as marca,
             }
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
                     # code...
+                $count++;
                 $cadena='<strong>Nombre: </strong>'.$value['name'].
                         '<br/><strong>Dirección: </strong>'.$value['address'].
                         '<br/><strong>Teléfono: </strong>'.$value['phone'].
                         '<br/><strong>Horario: </strong>'.$value['schedule'].
                         '<br/><strong>Tipo: </strong>'.$value['kind'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -1322,7 +1358,7 @@ product_brands.name as marca,
     break;
 
     default://EN CASO DE EXISTIR LA TABLA Y TENGA ID Y NOMBRE SE EJECUTA ESTE CASO
-         $registros=mysql_query("SELECT id, name FROM $tabla[$idsubcat] where id =$idelemento limit $limit, 10", $conexion) or
+         $registros=mysql_query("SELECT id, name FROM $tabla[$idsubcat] limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -1331,8 +1367,11 @@ product_brands.name as marca,
             }
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
+                $count++;
                 $cadena='<strong>Nombre: </strong>'.$value['name'];
+                $filas2['indice']=$count;
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;

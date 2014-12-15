@@ -10,7 +10,7 @@ archivos:
 19 // Empresas Multadas
 21 // Precios de Fertilizantes
 27 // Precios de Electricidad 
-39 // Transferencia FODES a municipalidades
+
 38 //tarifario cultural
 
 
