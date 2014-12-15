@@ -564,7 +564,53 @@ product_brands.name as marca,
          echo json_encode($filas3);        
     break;
     case '13':
-         $registros=mysql_query("SELECT id, name FROM $tabla[$idsubcat] limit $limit, 10", $conexion) or
+         $registros=mysql_query("SELECT delegation_infos.delegation_id, 
+                                        delegation_infos.name, 
+                                        delegation_infos.phone, 
+                                        delegation_infos.area 
+                                        FROM delegation_infos
+                                        inner join delegations 
+                                        on delegation_infos.delegation_id= delegations.id 
+                                        group by delegation_infos.delegation_id 
+                                        limit $limit, 10", $conexion) or
+         die(json_encode($respuesta));
+          $filas=array();
+            while ($reg=mysql_fetch_assoc($registros))
+            {
+                $filas[]=array_map('utf8_encode', $reg);
+            }
+        $filas2 = array();
+            $filas3= array();
+            foreach ($filas as $key => $value) {
+                if ($value['area']==NULL) {
+                    $cadena='<strong>Delegación: </strong>'.$value['name'].
+                        '<br/><strong>Teléfono: </strong>'.$value['phone'].
+                        '<br/><strong>Área: </strong>'.'N/A';
+                }else{
+                $cadena='<strong>Delegación: </strong>'.$value['name'].
+                        '<br/><strong>Teléfono: </strong>'.$value['phone'].
+                        '<br/><strong>Área: </strong>'.$value['area'];
+                }
+                $filas2['id']=$value['id'];
+                $filas2['name']=$cadena;
+                $filas3[]=$filas2;
+                /*array_push($filas2,$value['id'] );
+                array_push($filas2, $cadena);*/
+            }
+
+         echo json_encode($filas3);       
+    break;
+    case '16':
+         $registros=mysql_query("SELECT syndicates.id, 
+                                        syndicates.name,    
+                                        syndicates.acronym,
+                                        syndicate_categories.name as tipo, 
+                                        syndicates.total_men, 
+                                        syndicates.total_women  
+                                        FROM syndicates
+                                        inner join syndicate_categories 
+                                        on syndicates.syndicate_category_id=syndicate_categories.id
+                                        limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -575,7 +621,11 @@ product_brands.name as marca,
             $filas3= array();
             foreach ($filas as $key => $value) {
                     # code...
-                $cadena='<strong>Nombre: </strong>'.$value['name'];
+                $cadena='<strong>Nombre: </strong>'.$value['name'].
+                        '<br/><strong>Acrónimo: </strong>'.$value['acronym'].
+                        '<br/><strong>Tipo: </strong>'.$value['tipo'].
+                        '<br/><strong>N° de hombres integrantes: </strong>'.$value['total_men'].
+                        '<br/><strong>N° de mujeres integrantes: </strong>'.$value['total_women'];
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -583,7 +633,86 @@ product_brands.name as marca,
                 array_push($filas2, $cadena);*/
             }
 
-         echo json_encode($filas3);        break;
+         echo json_encode($filas3);       
+    break;
+    case '17':
+         $registros=mysql_query("SELECT cooperatives.id, 
+                                        cooperatives.name, 
+                                        cooperatives.acronym, 
+                                        cooperatives.address, 
+                                        cooperatives.phone1, 
+                                        cooperative_types.name as tipo
+                                        FROM cooperatives 
+                                        inner join cooperative_types 
+                                        on cooperatives.cooperative_type_id=cooperative_types.id 
+                                        limit $limit, 10", $conexion) or
+
+         die(json_encode($respuesta));
+          $filas=array();
+            while ($reg=mysql_fetch_assoc($registros))
+            {
+                $filas[]=array_map('utf8_encode', $reg);
+            }
+        $filas2 = array();
+            $filas3= array();
+            foreach ($filas as $key => $value) {
+                if ($value['phone1']==NULL) {
+                    $cadena='<strong>Nombre: </strong>'.$value['name'].
+                        '<br/><strong>Acrónimo: </strong>'.$value['acronym'].
+                        '<br/><strong>Dirección: </strong>'.$value['address'].
+                        '<br/><strong>Teléfono: </strong>'.'N/A'.
+                        '<br/><strong>Tipo: </strong>'.$value['tipo'];
+                    
+                }else{
+                $cadena='<strong>Nombre: </strong>'.$value['name'].
+                        '<br/><strong>Acrónimo: </strong>'.$value['acronym'].
+                        '<br/><strong>Dirección: </strong>'.$value['address'].
+                        '<br/><strong>Teléfono: </strong>'.$value['phone1'].
+                        '<br/><strong>Tipo: </strong>'.$value['tipo'];
+                }
+                $filas2['id']=$value['id'];
+                $filas2['name']=$cadena;
+                $filas3[]=$filas2;
+                /*array_push($filas2,$value['id'] );
+                array_push($filas2, $cadena);*/
+            }
+
+         echo json_encode($filas3);
+
+    break;
+    case '18':
+        $registros=mysql_query("SELECT delation_infos.id, 
+                                        delation_institutions.name, 
+                                        delation_infos.phone, 
+                                        delation_infos.kind 
+                                        FROM delation_infos 
+                                        inner join delation_institutions 
+                                        on delation_infos.delation_institution_id=delation_institutions.id 
+                                        limit $limit, 10", $conexion) or
+         die(json_encode($respuesta));
+          $filas=array();
+            while ($reg=mysql_fetch_assoc($registros))
+            {
+                $filas[]=array_map('utf8_encode', $reg);
+            }
+        $filas2 = array();
+            $filas3= array();
+            foreach ($filas as $key => $value) {
+                    # code...
+                $cadena='<strong>Nombre: </strong>'.$value['name'].
+                        '<strong>Teléfono: </strong>'.$value['phone'].
+                        '<strong>Tipo: </strong>'.$value['kind'];
+                $filas2['id']=$value['id'];
+                $filas2['name']=$cadena;
+                $filas3[]=$filas2;
+                /*array_push($filas2,$value['id'] );
+                array_push($filas2, $cadena);*/
+            }
+
+         echo json_encode($filas3);
+
+
+    break;
 
     /*case '21':
          $registros=mysql_query("SELECT id, name FROM $tabla[$idsubcat] where category_id=21 limit $limit, 10", $conexion) or
