@@ -54,11 +54,15 @@ $tabla = array(
     41  => "municipality_infos",
     23  => "sports_grants",
     24  => "sports_federation_transfers",
-    //31  => "cultural_fees",//ESTA TABLA NO EXISTE//se cambia cultural_events por cultural_fees para mostrarlos todos
+    /***********************************************************************/
+    31  => "cultural_fees",//ESTA TABLA NO EXISTE EN LA BASE PROPORCIONADA
+    /***********************************************************************/
     38  => "cultural_fee_places",
     42  => "natives",
     43  => "libraries",
+    /***********************************************************************/
     44  => "festivities",//ESTA TABLA TAMPOCO ESTA EN LA BASE PROPORCIONADA
+    /***********************************************************************/
     45  => "choirs",
     46  => "cultures"
 );
@@ -1064,6 +1068,7 @@ product_brands.name as marca,
     break;
 
     case '23':
+    setlocale(LC_MONETARY, 'en_US');
              $registros=mysql_query("SELECT id, name, amount, total_men, total_women
                                     FROM sports_grants limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
@@ -1076,10 +1081,10 @@ product_brands.name as marca,
             $filas3= array();
             foreach ($filas as $key => $value) {
                     # code...
-                $cadena='<strong>Nombre: </strong>'.$value['name'].
-                        '<strong>Nombre: </strong>'.$value['amount'].
-                        '<strong>Nombre: </strong>'.$value['total_men'].
-                        '<strong>Nombre: </strong>'.$value['name'];
+                $cadena='<strong>Federación: </strong>'.$value['name'].
+                        '<br/><strong>Monto: </strong>'.money_format('%(#10n', $value['amount']).
+                        '<br/><strong>Total de hombres: </strong>'.$value['total_men'].
+                        '<br/><strong>Total de mujeres: </strong>'.$value['total_women'];
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
@@ -1091,7 +1096,152 @@ product_brands.name as marca,
 
     break;
 
+    case '24':
+    setlocale(LC_MONETARY, 'en_US');
+             $registros=mysql_query("SELECT id, name, approved_amount, executed_amount, extra_amount
+                                    FROM sports_federation_transfers limit $limit, 10", $conexion) or
+         die(json_encode($respuesta));
+          $filas=array();
+            while ($reg=mysql_fetch_assoc($registros))
+            {
+                $filas[]=array_map('utf8_encode', $reg);
+            }
+        $filas2 = array();
+            $filas3= array();
+            foreach ($filas as $key => $value) {
+                    # code...
+                $cadena='<strong>Nombre: </strong>'.$value['name'].
+                        '<br/><strong>Monto aprobado: </strong>'.money_format('%(#10n',$value['approved_amount']).
+                        '<br/><strong>Monto ejecutado: </strong>'.money_format('%(#10n', $value['executed_amount']).
+                        '<br/><strong>Ayuda adicional pagada más refuerzo : </strong>'.money_format('%(#10n', $value['extra_amount']);
+                $filas2['id']=$value['id'];
+                $filas2['name']=$cadena;
+                $filas3[]=$filas2;
+                /*array_push($filas2,$value['id'] );
+                array_push($filas2, $cadena);*/
+            }
 
+         echo json_encode($filas3);
+       
+    break;
+
+    case '31':
+             
+         $filas= array();
+         echo json_encode($filas);
+    break;
+
+    case '38':
+        setlocale(LC_MONETARY, 'en_US');
+
+            $registros=mysql_query("SELECT 
+                            cultural_fees.id, 
+                            cultural_fee_places.name, 
+                            cultural_fee_types.name as tipo, 
+                            cultural_fees.description, 
+                            cultural_fees.min_price, 
+                            cultural_fees.max_price, 
+                            cultural_fee_price_types.name as nombreprecio,
+                            cultural_fee_place_contacts.address, 
+                            cultural_fee_place_contacts.phone  
+                            FROM cultural_fees
+                            INNER JOIN cultural_fee_places ON cultural_fee_places.id = cultural_fees.cultural_fee_place_id
+                            INNER JOIN cultural_fee_types ON cultural_fee_types.id = cultural_fees.cultural_fee_type_id
+                            INNER JOIN cultural_fee_price_types ON cultural_fee_price_types.id = cultural_fees.cultural_fee_price_type_id 
+                            inner join  cultural_fee_place_contacts on  cultural_fee_place_contacts.cultural_fee_place_id=cultural_fees.id
+                            limit $limit, 10", $conexion) or
+
+         die(json_encode($respuesta));
+          $filas=array();
+            while ($reg=mysql_fetch_assoc($registros))
+            {
+                $filas[]=array_map('utf8_encode', $reg);
+            }
+        $filas2 = array();
+            $filas3= array();
+            foreach ($filas as $key => $value) {
+                    # code...
+                $cadena='<strong>Lugar: </strong>'.$value['name'].
+                        '<br/><strong>Tipo: </strong>'.$value['tipo'].
+                        '<br/><strong>Descripción: </strong>'.$value['description'].
+                        '<br/><strong>Precio : </strong>'.money_format('%(#10n',$value['min_price']).
+                        '<br/><strong>Dirección: </strong>'.$value['address'].
+                        '<br/><strong>Teléfono: </strong>'.$value['phone'];
+                $filas2['id']=$value['id'];
+                $filas2['name']=$cadena;
+                $filas3[]=$filas2;
+                /*array_push($filas2,$value['id'] );
+                array_push($filas2, $cadena);*/
+            }
+
+         echo json_encode($filas3);
+    break;
+
+    case '42':
+             $registros=mysql_query("SELECT natives.id, 
+                                    natives.name, 
+                                    natives.ethnic_identity, 
+                                    natives.description, 
+                                    cities.name as municipio 
+                                    FROM natives
+                                    inner join cities on cities.id=natives.city_id 
+                                    limit $limit, 10", $conexion) or
+         die(json_encode($respuesta));
+          $filas=array();
+            while ($reg=mysql_fetch_assoc($registros))
+            {
+                $filas[]=array_map('utf8_encode', $reg);
+            }
+        $filas2 = array();
+            $filas3= array();
+            foreach ($filas as $key => $value) {
+                    # code...
+                $cadena='<strong>Nombre: </strong>'.$value['name'].
+                        '<br/><strong>Indentidad étnica: </strong>'.$value['ethnic_identity'].
+                        '<br/><strong>Descripción: </strong>'.$value['description'].
+                        '<br/><strong>Municipio: </strong>'.$value['municipio'];
+                $filas2['id']=$value['id'];
+                $filas2['name']=$cadena;
+                $filas3[]=$filas2;
+                /*array_push($filas2,$value['id'] );
+                array_push($filas2, $cadena);*/
+            }
+
+         echo json_encode($filas3);
+    break;
+    case '43':
+             $registros=mysql_query("SELECT id, name, address, phone, schedule, kind
+                                    FROM libraries limit $limit, 10", $conexion) or
+         die(json_encode($respuesta));
+          $filas=array();
+            while ($reg=mysql_fetch_assoc($registros))
+            {
+                $filas[]=array_map('utf8_encode', $reg);
+            }
+        $filas2 = array();
+            $filas3= array();
+            foreach ($filas as $key => $value) {
+                    # code...
+                $cadena='<strong>Nombre: </strong>'.$value['name'].
+                        '<br/><strong>Dirección: </strong>'.$value['address'].
+                        '<br/><strong>Teléfono: </strong>'.$value['phone'].
+                        '<br/><strong>Horario: </strong>'.$value['schedule'].
+                        '<br/><strong>Tipo: </strong>'.$value['kind'];
+                $filas2['id']=$value['id'];
+                $filas2['name']=$cadena;
+                $filas3[]=$filas2;
+                /*array_push($filas2,$value['id'] );
+                array_push($filas2, $cadena);*/
+            }
+
+         echo json_encode($filas3);
+    break;
+
+     case '44':
+             
+         $filas= array();
+         echo json_encode($filas);
+    break;
 
     /*case '21':
          $registros=mysql_query("SELECT id, name FROM $tabla[$idsubcat] where category_id=21 limit $limit, 10", $conexion) or
@@ -1117,50 +1267,7 @@ product_brands.name as marca,
     
 
     break;*/
-     case '31':
-         $registros=mysql_query("SELECT id, description FROM $tabla[$idsubcat] limit $limit, 10", $conexion) or
-         die(json_encode($respuesta));
-         $filas=array();
-            while ($reg=mysql_fetch_assoc($registros))
-            {
-                $filas[]=array_map('utf8_encode', $reg);
-            }
-         $filas2 = array();
-            $filas3= array();
-            foreach ($filas as $key => $value) {
-                    # code...
-                $cadena='<strong>Evento: </strong>'.$value['description'];
-                $filas2['id']=$value['id'];
-                $filas2['name']=$cadena;
-                }         
-                $registros=mysql_query("SELECT id, name FROM $tabla[$idsubcat] limit $limit, 10", $conexion) or
-         die(json_encode($respuesta));
-          $filas=array();
-            while ($reg=mysql_fetch_assoc($registros))
-            {
-                $filas[]=array_map('utf8_encode', $reg);
-            }
-        $filas2 = array();
-            $filas3= array();
-            foreach ($filas as $key => $value) {
-                    # code...
-                $cadena='<strong>Nombre: </strong>'.$value['name'];
-                $filas2['id']=$value['id'];
-                $filas2['name']=$cadena;
-                $filas3[]=$filas2;
-                /*array_push($filas2,$value['id'] );
-                array_push($filas2, $cadena);*/
-            
-
-         //echo json_encode($filas3);as3[]=$filas2;
-                /*array_push($filas2,$value['id'] );
-                array_push($filas2, $cadena);*/
-            }
-
-         echo json_encode($filas3);
-    
-
-    break;
+     
      case '38':
          $registros=mysql_query("SELECT id, name FROM $tabla[$idsubcat] limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
