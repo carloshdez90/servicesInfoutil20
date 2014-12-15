@@ -713,6 +713,385 @@ product_brands.name as marca,
 
 
     break;
+    case '20':
+        $tiene = array(
+            1  => "Si",
+            0  => "No"            
+        );
+
+         $registros=mysql_query("SELECT refuges.id, 
+                                        refuges.name, 
+                                        cities.name as municipio,
+                                        refuges.phone, 
+                                        refuges.has_water, 
+                                        refuges.has_bathroom, 
+                                        refuges.has_communication, 
+                                        refuges.has_electricity,
+                                        refuges.has_toilet 
+                                        FROM refuges 
+                                        inner join cities on refuges.city_id=cities.id 
+                                        limit $limit, 10", $conexion) or
+         die(json_encode($respuesta));
+          $filas=array();
+            while ($reg=mysql_fetch_assoc($registros))
+            {
+                $filas[]=array_map('utf8_encode', $reg);
+            }
+        $filas2 = array();
+            $filas3= array();
+            foreach ($filas as $key => $value) {
+                if ($value['phone']==NULL) {
+                    $cadena='<strong>Dirección: </strong>'.$value['name'].
+                        '<br/><strong>Municipio: </strong>'.$value['municipio'].
+                        '<br/><strong>Teléfono: </strong>'.'N/A'.
+                        '<br/><strong>Agua: </strong>'.$tiene[$value['has_water']].
+                        '<br/><strong>Baño: </strong>'.$tiene[$value['has_bathroom']].
+                        '<br/><strong>Comunicación: </strong>'.$tiene[$value['has_communication']].
+                        '<br/><strong>Electricidad: </strong>'.$tiene[$value['has_electricity']].
+                        '<br/><strong>Letrina: </strong>'.$tiene[$value['has_toilet']];
+                    
+                }else{
+                $cadena='<strong>Dirección: </strong>'.$value['name'].
+                        '<br/><strong>Municipio: </strong>'.$value['municipio'].
+                        '<br/><strong>Teléfono: </strong>'.$value['phone'].
+                        '<br/><strong>Agua: </strong>'.$tiene[$value['has_water']].
+                        '<br/><strong>Baño: </strong>'.$tiene[$value['has_bathroom']].
+                        '<br/><strong>Comunicación: </strong>'.$tiene[$value['has_communication']].
+                        '<br/><strong>Electricidad: </strong>'.$tiene[$value['has_electricity']].
+                        '<br/><strong>Letrina: </strong>'.$tiene[$value['has_toilet']];
+                }
+                $filas2['id']=$value['id'];
+                $filas2['name']=$cadena;
+                $filas3[]=$filas2;
+                /*array_push($filas2,$value['id'] );
+                array_push($filas2, $cadena);*/
+            }
+
+         echo json_encode($filas3);
+
+    break;
+    case '25':
+         $registros=mysql_query("SELECT id, code, name, kind, email, phone
+                                FROM risk_prevention_consultants 
+                                limit $limit, 10", $conexion) or
+         die(json_encode($respuesta));
+          $filas=array();
+            while ($reg=mysql_fetch_assoc($registros))
+            {
+                $filas[]=array_map('utf8_encode', $reg);
+            }
+        $filas2 = array();
+            $filas3= array();
+            foreach ($filas as $key => $value) {
+                    # code...
+                $cadena='<strong>Nombre: </strong>'.$value['name'].
+                        '<br/><strong>Código: </strong>'.$value['code'].
+                        '<br/><strong>Tipo: </strong>'.$value['kind'].
+                        '<br/><strong>Email: </strong>'.$value['email'].
+                        '<br/><strong>Teléfono: </strong>'.$value['phone'];
+                $filas2['id']=$value['id'];
+                $filas2['name']=$cadena;
+                $filas3[]=$filas2;
+                /*array_push($filas2,$value['id'] );
+                array_push($filas2, $cadena);*/
+            }
+
+         echo json_encode($filas3);
+    break;
+
+    case '28':
+        $registros=mysql_query("SELECT id, name, code1, code2, code3, registered_at
+                                FROM telephone_companies_concessions 
+                                limit $limit, 10", $conexion) or
+         die(json_encode($respuesta));
+          $filas=array();
+            while ($reg=mysql_fetch_assoc($registros))
+            {
+                $filas[]=array_map('utf8_encode', $reg);
+            }
+        $filas2 = array();
+            $filas3= array();
+            foreach ($filas as $key => $value) {
+                    # code...
+                $cadena='<strong>Nombre: </strong>'.$value['name'].
+                        '<br/><strong>Código: </strong>'.$value['code1'].'-'.$value['code2'].'-'.$value['code3'].
+                        '<br/><strong>Fecha de registro: </strong>'.$value['registered_at'];
+                $filas2['id']=$value['id'];
+                $filas2['name']=$cadena;
+                $filas3[]=$filas2;
+                /*array_push($filas2,$value['id'] );
+                array_push($filas2, $cadena);*/
+            }
+
+         echo json_encode($filas3);
+    break;
+
+    case '29':
+            $registros=mysql_query("SELECT id, name, acronym, resolution_number, 
+                                    freq_tx, freq_rx, ab, power, coverage 
+                                    FROM radial_frequencies 
+                                    limit $limit, 10", $conexion) or
+         die(json_encode($respuesta));
+          $filas=array();
+            while ($reg=mysql_fetch_assoc($registros))
+            {
+                $filas[]=array_map('utf8_encode', $reg);
+            }
+        $filas2 = array();
+            $filas3= array();
+            foreach ($filas as $key => $value) {
+                    # code...
+                $cadena='<strong>Nombre: </strong>'.$value['name'].
+                        '<br/><strong>Acrónimo: </strong>'.$value['acronym'].
+                        '<br/><strong>N° de resolución: </strong>'.$value['resolution_number'].
+                        '<br/><strong>Frec. RX: </strong>'.$value['freq_rx'].
+                        '<br/><strong>Frec. TX: </strong>'.$value['freq_tx'].
+                        '<br/><strong>AB: </strong>'.$value['ab'].
+                        '<br/><strong>Potencia (W)</strong>'.$value['power'].
+                        '<br/><strong>Cobertura: </strong>'.$value['coverage'];
+                $filas2['id']=$value['id'];
+                $filas2['name']=$cadena;
+                $filas3[]=$filas2;
+                /*array_push($filas2,$value['id'] );
+                array_push($filas2, $cadena);*/
+            }
+
+         echo json_encode($filas3);    
+    break;
+
+    case '30':
+            $registros=mysql_query("SELECT id, name, acronym, kind, coverage
+                                    FROM radial_concessions 
+                                    limit $limit, 10", $conexion) or
+         die(json_encode($respuesta));
+          $filas=array();
+            while ($reg=mysql_fetch_assoc($registros))
+            {
+                $filas[]=array_map('utf8_encode', $reg);
+            }
+        $filas2 = array();
+            $filas3= array();
+            foreach ($filas as $key => $value) {
+                    # code...
+                $cadena='<strong>Nombre: </strong>'.$value['name'].
+                        '<br/><strong>Acrónimo: </strong>'.$value['acronym'].
+                        '<br/><strong>Tipo: </strong>'.$value['kind'].
+                        '<br/><strong>Cobertura: </strong>'.$value['coverage'];
+                $filas2['id']=$value['id'];
+                $filas2['name']=$cadena;
+                $filas3[]=$filas2;
+                /*array_push($filas2,$value['id'] );
+                array_push($filas2, $cadena);*/
+            }
+
+         echo json_encode($filas3);
+    break;
+
+    case '32':
+             $registros=mysql_query("SELECT id, name,
+                                        start as inicio ,
+                                        end as final , longitude,
+                                        responsible
+                                        FROM roads 
+                                        limit $limit, 10", $conexion) or
+         die(json_encode($respuesta));
+          $filas=array();
+            while ($reg=mysql_fetch_assoc($registros))
+            {
+                $filas[]=array_map('utf8_encode', $reg);
+            }
+        $filas2 = array();
+            $filas3= array();
+            foreach ($filas as $key => $value) {
+                    # code...
+                $cadena='<strong>Nombre: </strong>'.$value['name'].
+                        '<br/><strong>Asignado a: </strong>'.$value['responsible'].
+                        '<br/><strong>Desde: </strong>'.$value['inicio'].
+                        '<br/><strong>Hasta: </strong>'.$value['final'].
+                        '<br/><strong>longitud: </strong>'.$value['longitude'].' Kms';
+                $filas2['id']=$value['id'];
+                $filas2['name']=$cadena;
+                $filas3[]=$filas2;
+                /*array_push($filas2,$value['id'] );
+                array_push($filas2, $cadena);*/
+            }
+
+         echo json_encode($filas3);    
+    break;
+
+    case '33':
+        $registros=mysql_query("SELECT id, name, acronym, kind, contact, charge, phone, email, address
+                                FROM disabled_associations  
+                                limit $limit, 10", $conexion) or
+         die(json_encode($respuesta));
+          $filas=array();
+            while ($reg=mysql_fetch_assoc($registros))
+            {
+                $filas[]=array_map('utf8_encode', $reg);
+            }
+        $filas2 = array();
+            $filas3= array();
+            foreach ($filas as $key => $value) {
+                    # code...
+                $cadena='<strong>Nombre: </strong>'.$value['name'].
+                        '<br/><strong>Acrónimo: </strong>'.$value['acronym'].
+                        '<br/><strong>Tipo: </strong>'.$value['kind'].
+                        '<br/><strong>Contacto: </strong>'.$value['contact'].
+                        '<br/><strong>Cargo: </strong>'.$value['charge'].
+                        '<br/><strong>Teléfono: </strong>'.$value['phone'].
+                        '<br/><strong>Email: </strong>'.$value['email'].
+                        '<br/><strong>Dirección: </strong>'.$value['address'];
+                $filas2['id']=$value['id'];
+                $filas2['name']=$cadena;
+                $filas3[]=$filas2;
+                /*array_push($filas2,$value['id'] );
+                array_push($filas2, $cadena);*/
+            }
+
+         echo json_encode($filas3);
+
+    break;
+    case '34':
+         $registros=mysql_query("SELECT id, name, phone, email
+                                FROM fovial_companies 
+                                limit $limit, 10", $conexion) or
+         die(json_encode($respuesta));
+          $filas=array();
+            while ($reg=mysql_fetch_assoc($registros))
+            {
+                $filas[]=array_map('utf8_encode', $reg);
+            }
+        $filas2 = array();
+            $filas3= array();
+            foreach ($filas as $key => $value) {
+                    # code...
+                $cadena='<strong>Nombre: </strong>'.$value['name'].
+                        '<br/><strong>Teléfono: </strong>'.$value['phone'].
+                        '<br/><strong>Email: </strong>'.$value['email'].
+                $filas2['id']=$value['id'];
+                $filas2['name']=$cadena;
+                $filas3[]=$filas2;
+                /*array_push($filas2,$value['id'] );
+                array_push($filas2, $cadena);*/
+            }
+
+         echo json_encode($filas3);
+    break;
+
+    case '37':
+
+        $info = array(
+            1  => "<a class=\" \" href=\"#\"  onclick=\"
+                    window.open('http://ciudadmujer.gob.sv/index.php?option=com_content&view=article&id=70&Itemid=113', '_system')\">
+                    Más info...
+                </a>",
+            2  => "Mas info..." ,
+            3  => "Mas info..." ,
+            4  => "Mas info..." ,
+            5  => "Mas info..."            
+        );
+         $registros=mysql_query("SELECT id, name, address, contact_person, contact_phone, contact_email, schedule
+                                FROM woman_cities   
+                                limit $limit, 10", $conexion) or
+         die(json_encode($respuesta));
+          $filas=array();
+            while ($reg=mysql_fetch_assoc($registros))
+            {
+                $filas[]=array_map('utf8_encode', $reg);
+            }
+        $filas2 = array();
+            $filas3= array();
+            foreach ($filas as $key => $value) {
+                    # code...
+                $cadena='<strong>Nombre: </strong>'.$value['name'].
+                        '<br/><strong>Dirección: </strong>'.$value['address'].
+                        '<br/><strong>Contacto: </strong>'.$value['contact_person'].
+                        '<br/><strong>Email: </strong>'.$value['contact_email'].
+                        '<br/><strong>Horario: </strong>'.$value['schedule'].
+                        '<br/>'.$info[$value['id']];
+                $filas2['id']=$value['id'];
+                $filas2['name']=$cadena;
+                $filas3[]=$filas2;
+                /*array_push($filas2,$value['id'] );
+                array_push($filas2, $cadena);*/
+            }
+
+         echo json_encode($filas3);
+    break;
+
+    case '41':
+            $registros=mysql_query("SELECT 
+                                    municipality_infos.id, 
+                                    municipality_infos.name, 
+                                    cities.name as ciudad, 
+                                    municipal_jobs.name as puesto, 
+                                    political_parties.name as partido, 
+                                    email, 
+                                    phone, 
+                                    fax, 
+                                    address
+                                    FROM municipality_infos
+                                    INNER JOIN cities ON cities.id = city_id
+                                    INNER JOIN municipal_jobs ON municipal_jobs.id = municipality_infos.municipal_job_id
+                                    INNER JOIN political_parties ON political_parties.id = political_party_id limit $limit, 10", $conexion) or
+         die(json_encode($respuesta));
+          $filas=array();
+            while ($reg=mysql_fetch_assoc($registros))
+            {
+                $filas[]=array_map('utf8_encode', $reg);
+            }
+        $filas2 = array();
+            $filas3= array();
+            foreach ($filas as $key => $value) {
+                    # code...
+                $cadena='<strong>Nombre: </strong>'.$value['name'].
+                        '<br/><strong>Municipio: </strong>'.$value['ciudad'].
+                        '<br/><strong>Puesto: </strong>'.$value['puesto'].
+                        '<br/><strong>Partido: </strong>'.$value['partido'].
+                        '<br/><strong>Email: </strong>'.$value['email'].
+                        '<br/><strong>Teléfono: </strong>'.$value['phone'].
+                        '<br/><strong>Fax: </strong>'.$value['fax'].
+                        '<br/><strong>Dirección: </strong>'.$value['address'];
+                $filas2['id']=$value['id'];
+                $filas2['name']=$cadena;
+                $filas3[]=$filas2;
+                /*array_push($filas2,$value['id'] );
+                array_push($filas2, $cadena);*/
+            }
+
+         echo json_encode($filas3);
+
+    break;
+
+    case '23':
+             $registros=mysql_query("SELECT id, name, amount, total_men, total_women
+                                    FROM sports_grants limit $limit, 10", $conexion) or
+         die(json_encode($respuesta));
+          $filas=array();
+            while ($reg=mysql_fetch_assoc($registros))
+            {
+                $filas[]=array_map('utf8_encode', $reg);
+            }
+        $filas2 = array();
+            $filas3= array();
+            foreach ($filas as $key => $value) {
+                    # code...
+                $cadena='<strong>Nombre: </strong>'.$value['name'].
+                        '<strong>Nombre: </strong>'.$value['amount'].
+                        '<strong>Nombre: </strong>'.$value['total_men'].
+                        '<strong>Nombre: </strong>'.$value['name'];
+                $filas2['id']=$value['id'];
+                $filas2['name']=$cadena;
+                $filas3[]=$filas2;
+                /*array_push($filas2,$value['id'] );
+                array_push($filas2, $cadena);*/
+            }
+
+         echo json_encode($filas3);
+
+    break;
+
+
 
     /*case '21':
          $registros=mysql_query("SELECT id, name FROM $tabla[$idsubcat] where category_id=21 limit $limit, 10", $conexion) or
@@ -753,7 +1132,27 @@ product_brands.name as marca,
                 $cadena='<strong>Evento: </strong>'.$value['description'];
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
+                }         
+                $registros=mysql_query("SELECT id, name FROM $tabla[$idsubcat] limit $limit, 10", $conexion) or
+         die(json_encode($respuesta));
+          $filas=array();
+            while ($reg=mysql_fetch_assoc($registros))
+            {
+                $filas[]=array_map('utf8_encode', $reg);
+            }
+        $filas2 = array();
+            $filas3= array();
+            foreach ($filas as $key => $value) {
+                    # code...
+                $cadena='<strong>Nombre: </strong>'.$value['name'];
+                $filas2['id']=$value['id'];
+                $filas2['name']=$cadena;
                 $filas3[]=$filas2;
+                /*array_push($filas2,$value['id'] );
+                array_push($filas2, $cadena);*/
+            
+
+         //echo json_encode($filas3);as3[]=$filas2;
                 /*array_push($filas2,$value['id'] );
                 array_push($filas2, $cadena);*/
             }
