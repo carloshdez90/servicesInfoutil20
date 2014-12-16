@@ -10,6 +10,7 @@ recibe como parametros: el nombre de la tabla de la sub categoría.
     //header('Content-Type: text/json');
 
     $idsubcat=$_REQUEST['idsubcat'];
+    $token=$_REQUEST['token'];
     $limit=$_REQUEST['limit'];
     
     $respuesta=array('resultado'=>2);
@@ -88,7 +89,7 @@ switch ($idsubcat) {
        //        mysql_query("UPDATE ELEMENTO SET VISITAS=VISITAS+1 WHERE IDSUBCATEGORIA=$idsubcat AND IDELEMENTO=$idelemento", $conexion) or die(json_encode($respuesta));
 
 
-        $registros=mysql_query("SELECT id, name, quantity, unit, price  FROM $tabla[$idsubcat] limit $limit,10 ", $conexion) or
+        $registros=mysql_query("SELECT id, name, quantity, unit, price  FROM $tabla[$idsubcat] where name like '%$token%' limit $limit,10 ", $conexion) or
         die(json_encode($respuesta));
          $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -121,7 +122,7 @@ switch ($idsubcat) {
        //        mysql_query("UPDATE ELEMENTO SET VISITAS=VISITAS+1 WHERE IDSUBCATEGORIA=$idsubcat AND IDELEMENTO=$idelemento", $conexion) or die(json_encode($respuesta));
 
 
-         $registros=mysql_query("SELECT id, name, phone, address FROM $tabla[$idsubcat] limit $limit,10", $conexion) or
+         $registros=mysql_query("SELECT id, name, phone, address FROM $tabla[$idsubcat] where name like '%$token%' limit $limit,10", $conexion) or
         die(json_encode($respuesta));
         
         $filas=array();
@@ -158,7 +159,7 @@ switch ($idsubcat) {
        //        mysql_query("UPDATE ELEMENTO SET VISITAS=VISITAS+1 WHERE IDSUBCATEGORIA=$idsubcat AND IDELEMENTO=$idelemento", $conexion) or die(json_encode($respuesta));
 
 
-        $registros=mysql_query("SELECT $tabla[$idsubcat].id, $tabla[$idsubcat].name, $tabla[$idsubcat].register_number, doctor_especialities.name as carrera FROM $tabla[$idsubcat], doctor_especialities WHERE $tabla[$idsubcat].doctor_especiality_id=doctor_especialities.id limit $limit,10 ", $conexion) or
+        $registros=mysql_query("SELECT $tabla[$idsubcat].id, $tabla[$idsubcat].name, $tabla[$idsubcat].register_number, doctor_especialities.name as carrera FROM $tabla[$idsubcat], doctor_especialities WHERE $tabla[$idsubcat].doctor_especiality_id=doctor_especialities.id and $tabla[$idsubcat].name like '%$token%' limit $limit,10 ", $conexion) or
         die(json_encode($respuesta));
         
         $filas=array();
@@ -190,7 +191,7 @@ switch ($idsubcat) {
 
         break;
          case '15':
-        $registros=mysql_query("SELECT id, name, address, authorized_at, authorization_expire_at FROM $tabla[$idsubcat] limit $limit,10", $conexion) or
+        $registros=mysql_query("SELECT id, name, address, authorized_at, authorization_expire_at FROM $tabla[$idsubcat] where $tabla[$idsubcat].name like '%$token%' limit $limit,10", $conexion) or
         die(json_encode($respuesta));
         
         $filas=array();
@@ -226,6 +227,7 @@ switch ($idsubcat) {
                                 from schools 
                                 inner join school_infos on schools.id = school_infos.school_id 
                                 inner join academic_grades on school_infos.academic_grade_id=academic_grades.id  
+                                where schools.name like '%$token%'
                                 limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
          $filas=array();
@@ -257,6 +259,7 @@ switch ($idsubcat) {
          $registros=mysql_query("SELECT  universities.id,  universities.name , carreers.name as carrera, universities.address 
                                 from  universities 
                                 inner join carreers on  universities.id = carreers.university_id  
+                                where carreers.name like '%$token%'
                                 limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
          $filas=array();
@@ -298,6 +301,7 @@ switch ($idsubcat) {
                                     INNER JOIN product_categories ON products.product_category_id = product_categories.id
                                     INNER JOIN product_brands ON product_probes.product_brand_id = product_brands.id
                                     WHERE product_categories.category_id =$idsubcat
+                                    and products.name like '%$token%'
                                     limit $limit, 10", $conexion) or die(json_encode($respuesta));
              $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -325,7 +329,7 @@ switch ($idsubcat) {
          echo json_encode($filas3);
     break;
     case '12':
-           $registros=mysql_query("SELECT id, name, phone, address, auth FROM $tabla[$idsubcat] limit $limit,10 ", $conexion) or
+           $registros=mysql_query("SELECT id, name, phone, address, auth FROM $tabla[$idsubcat] where name like '%$token%' limit $limit,10 ", $conexion) or
              die(json_encode($respuesta));
 
              $filas=array();
@@ -374,6 +378,7 @@ switch ($idsubcat) {
                                     INNER JOIN product_categories ON products.product_category_id = product_categories.id
                                     INNER JOIN product_brands ON product_probes.product_brand_id = product_brands.id
                                     WHERE product_categories.category_id =$idsubcat
+                                    and products.name like '%$token%'
                                     limit $limit, 10", $conexion) or die(json_encode($respuesta));
              $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -405,6 +410,7 @@ switch ($idsubcat) {
                             company_penalties.year, company_penalties.month 
                             FROM companies 
                             inner join company_penalties on companies.id=company_penalties.company_id 
+                            where companies.name like '%$token%'
                             limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -443,6 +449,7 @@ switch ($idsubcat) {
                                     INNER JOIN product_categories ON products.product_category_id = product_categories.id
                                     INNER JOIN product_brands ON product_probes.product_brand_id = product_brands.id
                                     WHERE product_categories.category_id =$idsubcat
+                                    and products.name like '%$token%'
                                     limit $limit, 10", $conexion) or die(json_encode($respuesta));
              $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -481,6 +488,7 @@ switch ($idsubcat) {
                     inner join electricity_companies on electricity_prices.electricity_company_id=electricity_companies.id
                     inner join  electricity_charge_types on electricity_prices.electricity_charge_type_id=electricity_charge_types.id 
                     inner join  electricity_rate_types on electricity_prices.electricity_rate_type_id=electricity_rate_types.id 
+                    where electricity_companies.name like '%$token%'
                     limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -510,7 +518,7 @@ switch ($idsubcat) {
          echo json_encode($filas3);
     break;
     case '36':
-        $registros=mysql_query("SELECT id, code, name, kind FROM $tabla[$idsubcat] limit $limit, 10", $conexion) or
+        $registros=mysql_query("SELECT id, code, name, kind FROM $tabla[$idsubcat] where $tabla[$idsubcat].name like '%$token%' limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -545,6 +553,7 @@ switch ($idsubcat) {
                                         FROM fodes_cities_transfer_infos 
                                         inner join cities on fodes_cities_transfer_infos.fodes_cities_transfer_id=cities.id 
                                         inner join fodes_cities_transfers on fodes_cities_transfer_infos.fodes_cities_transfer_id= fodes_cities_transfers.city_id
+                                        where cities.name like '%$token%'
                                         limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -581,6 +590,7 @@ switch ($idsubcat) {
                                        FROM civil_organizations 
                                        inner join civil_organization_types 
                                        on civil_organizations.civil_organization_type_id=civil_organization_types.id 
+                                       where civil_organizations.name like '%$token%'
                                        limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -624,6 +634,7 @@ switch ($idsubcat) {
                                         FROM delegation_infos
                                         inner join delegations 
                                         on delegation_infos.delegation_id= delegations.id 
+                                        where delegation_infos.name like '%$token%'
                                         group by delegation_infos.delegation_id 
                                         limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
@@ -666,6 +677,7 @@ switch ($idsubcat) {
                                         FROM syndicates
                                         inner join syndicate_categories 
                                         on syndicates.syndicate_category_id=syndicate_categories.id
+                                        where syndicates.name like '%$token%'
                                         limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -704,6 +716,7 @@ switch ($idsubcat) {
                                         FROM cooperatives 
                                         inner join cooperative_types 
                                         on cooperatives.cooperative_type_id=cooperative_types.id 
+                                        where cooperatives.name like '%$token%'
                                         limit $limit, 10", $conexion) or
 
          die(json_encode($respuesta));
@@ -750,6 +763,7 @@ switch ($idsubcat) {
                                         FROM delation_infos 
                                         inner join delation_institutions 
                                         on delation_infos.delation_institution_id=delation_institutions.id 
+                                        where delation_institutions.name like '%$token%'
                                         limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -795,6 +809,7 @@ switch ($idsubcat) {
                                         refuges.has_toilet 
                                         FROM refuges 
                                         inner join cities on refuges.city_id=cities.id 
+                                        where refuges.name like '%$token%'
                                         limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -841,6 +856,7 @@ switch ($idsubcat) {
     case '25':
          $registros=mysql_query("SELECT id, code, name, kind, email, phone
                                 FROM risk_prevention_consultants 
+                                where name like '%$token%'
                                 limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -873,6 +889,7 @@ switch ($idsubcat) {
     case '28':
         $registros=mysql_query("SELECT id, name, code1, code2, code3, registered_at
                                 FROM telephone_companies_concessions 
+                                where name like '%$token%'
                                 limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -904,6 +921,7 @@ switch ($idsubcat) {
             $registros=mysql_query("SELECT id, name, acronym, resolution_number, 
                                     freq_tx, freq_rx, ab, power, coverage 
                                     FROM radial_frequencies 
+                                    where name like '%$token%'
                                     limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -939,6 +957,7 @@ switch ($idsubcat) {
     case '30':
             $registros=mysql_query("SELECT id, name, acronym, kind, coverage
                                     FROM radial_concessions 
+                                    where name like '%$token%'
                                     limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -973,6 +992,7 @@ switch ($idsubcat) {
                                         end as final , longitude,
                                         responsible
                                         FROM roads 
+                                        where name like '%$token%'
                                         limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -1005,6 +1025,7 @@ switch ($idsubcat) {
     case '33':
         $registros=mysql_query("SELECT id, name, acronym, kind, contact, charge, phone, email, address
                                 FROM disabled_associations  
+                                where name like '%$token%'
                                 limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -1040,6 +1061,7 @@ switch ($idsubcat) {
     case '34':
          $registros=mysql_query("SELECT id, name, phone, email
                                 FROM fovial_companies 
+                                where name like '%$token%'
                                 limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -1081,6 +1103,7 @@ switch ($idsubcat) {
         );
          $registros=mysql_query("SELECT id, name, address, contact_person, contact_phone, contact_email, schedule
                                 FROM woman_cities   
+                                where name like '%$token%'
                                 limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -1125,7 +1148,9 @@ switch ($idsubcat) {
                                     FROM municipality_infos
                                     INNER JOIN cities ON cities.id = city_id
                                     INNER JOIN municipal_jobs ON municipal_jobs.id = municipality_infos.municipal_job_id
-                                    INNER JOIN political_parties ON political_parties.id = political_party_id limit $limit, 10", $conexion) or
+                                    INNER JOIN political_parties ON political_parties.id = political_party_id 
+                                    where cities.name like '%$token%'
+                                    limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -1161,7 +1186,9 @@ switch ($idsubcat) {
     case '23':
     setlocale(LC_MONETARY, 'en_US');
              $registros=mysql_query("SELECT id, name, amount, total_men, total_women
-                                    FROM sports_grants limit $limit, 10", $conexion) or
+                                    FROM sports_grants 
+                                    where name like '%$token%'
+                                    limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -1193,7 +1220,9 @@ switch ($idsubcat) {
     case '24':
     setlocale(LC_MONETARY, 'en_US');
              $registros=mysql_query("SELECT id, name, approved_amount, executed_amount, extra_amount
-                                    FROM sports_federation_transfers limit $limit, 10", $conexion) or
+                                    FROM sports_federation_transfers 
+                                    where name like '%$token%'
+                                    limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -1246,6 +1275,7 @@ switch ($idsubcat) {
                             INNER JOIN cultural_fee_types ON cultural_fee_types.id = cultural_fees.cultural_fee_type_id
                             INNER JOIN cultural_fee_price_types ON cultural_fee_price_types.id = cultural_fees.cultural_fee_price_type_id 
                             inner join  cultural_fee_place_contacts on  cultural_fee_place_contacts.cultural_fee_place_id=cultural_fees.id
+                            where cultural_fee_places.name like '%$token%'
                             limit $limit, 10", $conexion) or
 
          die(json_encode($respuesta));
@@ -1285,6 +1315,7 @@ switch ($idsubcat) {
                                     cities.name as municipio 
                                     FROM natives
                                     inner join cities on cities.id=natives.city_id 
+                                    where natives.name like '%$token%'
                                     limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
@@ -1314,7 +1345,9 @@ switch ($idsubcat) {
     break;
     case '43':
              $registros=mysql_query("SELECT id, name, address, phone, schedule, kind
-                                    FROM libraries limit $limit, 10", $conexion) or
+                                    FROM libraries 
+                                    where name like '%$token%'
+                                    limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -1361,7 +1394,7 @@ switch ($idsubcat) {
     break;
 
     default://EN CASO DE EXISTIR LA TABLA Y TENGA ID Y NOMBRE SE EJECUTA ESTE CASO
-         $registros=mysql_query("SELECT id, name FROM $tabla[$idsubcat] limit $limit, 10", $conexion) or
+         $registros=mysql_query("SELECT id, name FROM $tabla[$idsubcat] where $tabla[$idsubcat].name like '%$token%' limit $limit, 10", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
