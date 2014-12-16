@@ -223,7 +223,8 @@ switch ($idsubcat) {
 
         break;
           case '6':
-         $registros=mysql_query("SELECT schools.id, schools.name, school_infos.year, academic_grades.name as gradoAcademico, school_infos.turn, school_infos.quota 
+         $registros=mysql_query("SELECT CONCAT( schools.id, school_infos.school_id, academic_grades.id, school_infos.year) 
+                                AS idtupla, schools.name, school_infos.year, academic_grades.name as gradoAcademico, school_infos.turn, school_infos.quota 
                                 from schools 
                                 inner join school_infos on schools.id = school_infos.school_id 
                                 inner join academic_grades on school_infos.academic_grade_id=academic_grades.id  
@@ -246,7 +247,7 @@ switch ($idsubcat) {
                 $count++;
                 $cadena='<strong>Institución: </strong>'.$value['name'].'<br/><strong> Nivel: </strong>'.$value['gradoAcademico'].'<br/> <strong>Año: </strong>'.$value['year'].'<br/><strong> Turno: </strong>'.$value['turn'].'<br/><strong>Cuota: $</strong>'.$value['quota'];
                 $filas2['indice']=$count;                
-                $filas2['id']=$value['id'];
+                $filas2['id']=$value['idtupla'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
                 /*array_push($filas2,$value['id'] );
@@ -256,7 +257,7 @@ switch ($idsubcat) {
          echo json_encode($filas3);
     break;
     case '7':
-         $registros=mysql_query("SELECT  universities.id,  universities.name , carreers.name as carrera, universities.address 
+         $registros=mysql_query("SELECT  universities.id,  carreers.id as idcarrera, universities.name , carreers.name as carrera, universities.address 
                                 from  universities 
                                 inner join carreers on  universities.id = carreers.university_id  
                                 where carreers.name like '%$token%'
@@ -278,7 +279,7 @@ switch ($idsubcat) {
                 $count++;
                 $cadena='<strong>Universidad: </strong>'.$value['name'].'<br><strong>Carrera:</strong> '.$value['carrera'];
                 $filas2['indice']=$count;
-                $filas2['id']=$value['id'];
+                $filas2['id']=$value['id'].$value['idcarrera'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
                 /*array_push($filas2,$value['id'] );
