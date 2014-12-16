@@ -15,7 +15,7 @@ recibe como parametros: el nombre de la tabla de la sub categoría.
 	mysql_select_db($baseDatos,$conexion)
 	or die("Problemas en la seleccion de la base de datos");
 	//$registros=mysql_query("SELECT name FROM '$tabla' LIMIT 0, 30",$conexion) or
-	$registros=mysql_query("SELECT name FROM $tabla", $conexion) or
+	$registros=mysql_query("SELECT  id ,  name ,  address ,  phone , rector FROM  universities", $conexion) or
 	die(json_encode($respuesta));
 	$filas=array();
 	while ($reg=mysql_fetch_assoc($registros))

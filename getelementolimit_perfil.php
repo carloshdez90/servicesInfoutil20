@@ -216,8 +216,8 @@ switch ($idsubcat) {
                                 from schools 
                                 inner join school_infos on schools.id = school_infos.school_id 
                                 inner join academic_grades on school_infos.academic_grade_id=academic_grades.id
-                                where schools.id=$idelemento  
-                                limit $limit, 10", $conexion) or
+                                /*where schools.id=$idelemento  */
+                                ", $conexion) or
          die(json_encode($respuesta));
          $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -232,13 +232,14 @@ switch ($idsubcat) {
             $count=0;
             foreach ($filas as $key => $value) {
                     # code...
-                $count++;
-                if($count==$indice){
+              
+              $count++;
+            if($count==$indice){
                 $cadena='<strong>Institución: </strong>'.$value['name'].'<br/><strong> Nivel: </strong>'.$value['gradoAcademico'].'<br/> <strong>Año: </strong>'.$value['year'].'<br/><strong> Turno: </strong>'.$value['turn'].'<br/><strong>Cuota: $</strong>'.$value['quota'];
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
-                }
+            }
                 /*array_push($filas2,$value['id'] );
                 array_push($filas2, $cadena);*/
             }
@@ -249,8 +250,8 @@ switch ($idsubcat) {
          $registros=mysql_query("SELECT  universities.id,  universities.name , carreers.name as carrera, universities.address 
                                 from  universities 
                                 inner join carreers on  universities.id = carreers.university_id 
-                                where universities.id = $idelemento 
-                                limit $limit, 10", $conexion) or
+                                /*where universities.id = $idelemento */
+                                ", $conexion) or
          die(json_encode($respuesta));
          $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -279,20 +280,22 @@ switch ($idsubcat) {
          echo json_encode($filas3);
     break;
    case '9':
-         $registros=mysql_query("SELECT products.id, products.name,
-product_brands.name as marca,
-                                shopping_establishments.name as establecimiento, 
-                                product_presentations.name as presentacion, 
-                                product_probes.price
-                                from products 
-                                inner join  product_probes on products.id=product_probes.product_id 
-                                inner join  shopping_establishments on product_probes.shopping_establishment_id= shopping_establishments.id
-                                inner join product_presentations on product_probes.product_presentation_id=product_presentations.id 
-                                inner join product_categories on products.product_category_id=product_categories.id 
-                                inner join product_brands on product_probes.product_brand_id=product_brands.id
-                                where product_categories.category_id=$idsubcat
-                                and products.id=$idelemento
-                                limit $limit, 10", $conexion) or die(json_encode($respuesta));
+         $registros=mysql_query("SELECT product_probes.id, 
+                                    products.name, 
+                                    product_brands.name AS marca, 
+                                    shopping_establishments.name AS establecimiento, 
+                                    product_presentations.name AS presentacion, 
+                                    product_probes.price
+                                    FROM product_probes
+                                    INNER JOIN products ON products.id = product_probes.product_id
+                                    INNER JOIN shopping_establishments ON product_probes.shopping_establishment_id = shopping_establishments.id
+                                    INNER JOIN product_presentations ON product_probes.product_presentation_id = product_presentations.id
+                                    INNER JOIN product_categories ON products.product_category_id = product_categories.id
+                                    INNER JOIN product_brands ON product_probes.product_brand_id = product_brands.id
+                                    WHERE product_categories.category_id =$idsubcat
+                                    AND product_probes.id=$idelemento
+                                    ", $conexion) or die(json_encode($respuesta));
+                         
              $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
             {
@@ -303,16 +306,16 @@ product_brands.name as marca,
             
             $filas2 = array();
             $filas3= array();
-            $count=0;
+            //$count=0;
             foreach ($filas as $key => $value) {
                     # code...
                 $count++;
-                if ($count==$indice) {
+              //  if ($count==$indice) {
                 $cadena='<strong>Producto: </strong>'.$value['name'].'<br/><strong>Marca: </strong>'.$value['marca'].'<br/><strong>Establecimiento: </strong>'.$value['establecimiento'].'<br><strong>Presentación: </strong>'.$value['presentacion'].'<br/><strong>Precio: </strong>$:'.$value['price'];
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
-            }
+            //}
                 /*array_push($filas2,$value['id'] );
                 array_push($filas2, $cadena);*/
             }
@@ -353,20 +356,21 @@ product_brands.name as marca,
 
         break;
          case '14':
-         $registros=mysql_query("SELECT products.id, products.name,
-                                product_brands.name as marca,
-                                shopping_establishments.name as establecimiento, 
-                                product_presentations.name as presentacion, 
-                                product_probes.price
-                                from products 
-                                inner join  product_probes on products.id=product_probes.product_id 
-                                inner join  shopping_establishments on product_probes.shopping_establishment_id= shopping_establishments.id
-                                inner join product_presentations on product_probes.product_presentation_id=product_presentations.id 
-                                inner join product_categories on products.product_category_id=product_categories.id 
-                                inner join product_brands on product_probes.product_brand_id=product_brands.id
-                                where product_categories.category_id=$idsubcat
-                                and products.id=$idelemento
-                                limit $limit, 10", $conexion) or die(json_encode($respuesta));
+         $registros=mysql_query("SELECT product_probes.id, 
+                                    products.name, 
+                                    product_brands.name AS marca, 
+                                    shopping_establishments.name AS establecimiento, 
+                                    product_presentations.name AS presentacion, 
+                                    product_probes.price
+                                    FROM product_probes
+                                    INNER JOIN products ON products.id = product_probes.product_id
+                                    INNER JOIN shopping_establishments ON product_probes.shopping_establishment_id = shopping_establishments.id
+                                    INNER JOIN product_presentations ON product_probes.product_presentation_id = product_presentations.id
+                                    INNER JOIN product_categories ON products.product_category_id = product_categories.id
+                                    INNER JOIN product_brands ON product_probes.product_brand_id = product_brands.id
+                                    WHERE product_categories.category_id =$idsubcat
+                                    AND product_probes.id=$idelemento
+                                    ", $conexion) or die(json_encode($respuesta));
              $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
             {
@@ -377,16 +381,16 @@ product_brands.name as marca,
             
             $filas2 = array();
             $filas3= array();
-            $count=0;
+            //$count=0;
             foreach ($filas as $key => $value) {
                 $count++;
                 
-                if ($count==$indice) {
+              //  if ($count==$indice) {
                 $cadena='<strong>Producto: </strong>'.$value['name'].'<br/><strong>Marca: </strong>'.$value['marca'].'<br/><strong>Establecimiento: </strong>'.$value['establecimiento'].'<br><strong>Presentación: </strong>'.$value['presentacion'].'<br/><strong>Precio: </strong>$:'.$value['price'];
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
-                }
+                //}
                 /*array_push($filas2,$value['id'] );
                 array_push($filas2, $cadena);*/
             }
@@ -398,8 +402,8 @@ product_brands.name as marca,
                             company_penalties.year, company_penalties.month 
                             FROM companies 
                             inner join company_penalties on companies.id=company_penalties.company_id 
-                            where companies.id=$idelemento
-                            limit $limit, 10", $conexion) or
+                            /*where companies.id=$idelemento*/
+                            ", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -425,20 +429,21 @@ product_brands.name as marca,
          echo json_encode($filas3);
     break;
      case '21':
-         $registros=mysql_query("SELECT products.id, products.name,
-                                product_brands.name as marca,
-                                shopping_establishments.name as establecimiento, 
-                                product_presentations.name as presentacion, 
-                                product_probes.price
-                                from products 
-                                inner join  product_probes on products.id=product_probes.product_id 
-                                inner join  shopping_establishments on product_probes.shopping_establishment_id= shopping_establishments.id
-                                inner join product_presentations on product_probes.product_presentation_id=product_presentations.id 
-                                inner join product_categories on products.product_category_id=product_categories.id 
-                                inner join product_brands on product_probes.product_brand_id=product_brands.id
-                                where product_categories.category_id=$idsubcat
-                                and products.id=$idelemento
-                                limit $limit, 10", $conexion) or die(json_encode($respuesta));
+          $registros=mysql_query("SELECT product_probes.id, 
+                                    products.name, 
+                                    product_brands.name AS marca, 
+                                    shopping_establishments.name AS establecimiento, 
+                                    product_presentations.name AS presentacion, 
+                                    product_probes.price
+                                    FROM product_probes
+                                    INNER JOIN products ON products.id = product_probes.product_id
+                                    INNER JOIN shopping_establishments ON product_probes.shopping_establishment_id = shopping_establishments.id
+                                    INNER JOIN product_presentations ON product_probes.product_presentation_id = product_presentations.id
+                                    INNER JOIN product_categories ON products.product_category_id = product_categories.id
+                                    INNER JOIN product_brands ON product_probes.product_brand_id = product_brands.id
+                                    WHERE product_categories.category_id =$idsubcat
+                                    AND product_probes.id=$idelemento
+                                    ", $conexion) or die(json_encode($respuesta));
              $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
             {
@@ -449,16 +454,16 @@ product_brands.name as marca,
             
             $filas2 = array();
             $filas3= array();
-            $count=0;
+            //$count=0;
             foreach ($filas as $key => $value) {
                     # code...
                 $count++;
-                if ($count==$indice) {
-                $cadena='<strong>Producto: </strong>'.$value['name'].'<br/><strong>Marca: </strong>'.$value['marca'].'<br/><strong>Establecimiento: </strong>'.$value['establecimiento'].'<br><strong>Presentación: </strong>'.$value['presentacion'].'<br/><strong>Precio: </strong>$:'.$value['price'];
+              //  if ($count==$indice) {
+                $cadena='<strong>Producto: </strong>'.$value['name'].'<br/><strong>Marca: </strong>'.$value['marca'].'<br/><strong>Establecimiento: </strong>'.$value['establecimiento'].'<br><strong>Presentación: </strong>'.$value['presentacion'].'<br/><strong>Precio: </strong>$ '.$value['price'];
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
-                }
+                //}
                 /*array_push($filas2,$value['id'] );
                 array_push($filas2, $cadena);*/
             }
@@ -478,7 +483,7 @@ product_brands.name as marca,
                     inner join  electricity_charge_types on electricity_prices.electricity_charge_type_id=electricity_charge_types.id 
                     inner join  electricity_rate_types on electricity_prices.electricity_rate_type_id=electricity_rate_types.id 
                     where electricity_prices.id=$idelemento
-                    limit $limit, 10", $conexion) or
+                    ", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -487,11 +492,11 @@ product_brands.name as marca,
             }
         $filas2 = array();
             $filas3= array();
-            $count=0;
+            //$count=0;
             foreach ($filas as $key => $value) {
                     # code...
-                $count++;
-                if ($count==$indice) {
+              //  $count++;
+                //if ($count==$indice) {
 
                         $cadena='<strong>Compañia: </strong>'.$value['company'].
                         '<br/><strong>Tipo de Cargo: </strong>'.$value['tipocarga'].
@@ -501,7 +506,7 @@ product_brands.name as marca,
                 $filas2['id']=$value['id'];
                 $filas2['name']=$cadena;
                 $filas3[]=$filas2;
-                }
+                //}
                 /*array_push($filas2,$value['id'] );
                 array_push($filas2, $cadena);*/
             }
@@ -509,7 +514,7 @@ product_brands.name as marca,
          echo json_encode($filas3);
     break;
     case '36':
-        $registros=mysql_query("SELECT id, code, name, kind FROM $tabla[$idsubcat] where id=$idelemento limit $limit, 10", $conexion) or
+        $registros=mysql_query("SELECT id, code, name, kind FROM $tabla[$idsubcat] where id=$idelemento ", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -542,7 +547,7 @@ product_brands.name as marca,
                                         inner join cities on fodes_cities_transfer_infos.fodes_cities_transfer_id=cities.id 
                                         inner join fodes_cities_transfers on fodes_cities_transfer_infos.fodes_cities_transfer_id= fodes_cities_transfers.city_id
                                         where fodes_cities_transfer_infos.id=$idelemento
-                                        limit $limit, 10", $conexion) or
+                                        ", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -575,7 +580,7 @@ product_brands.name as marca,
                                        inner join civil_organization_types 
                                        on civil_organizations.civil_organization_type_id=civil_organization_types.id 
                                        where civil_organizations.id=$idelemento
-                                       limit $limit, 10", $conexion) or
+                                       ", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -613,11 +618,10 @@ product_brands.name as marca,
                                         delegation_infos.phone, 
                                         delegation_infos.area 
                                         FROM delegation_infos
-                                        inner join delegations 
-                                        on delegation_infos.delegation_id= delegations.id 
-                                        where delation_infos.delegation_id=$idelemento
+                                        inner join delegations on delegation_infos.delegation_id= delegations.id 
+                                        /*where delation_infos.delegation_id=$idelemento*/
                                         group by delegation_infos.delegation_id 
-                                        limit $limit, 10", $conexion) or
+                                        ", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -626,19 +630,23 @@ product_brands.name as marca,
             }
         $filas2 = array();
             $filas3= array();
+            $count=0;
             foreach ($filas as $key => $value) {
-                if ($value['area']==NULL) {
-                    $cadena='<strong>Delegación: </strong>'.$value['name'].
-                        '<br/><strong>Teléfono: </strong>'.$value['phone'].
-                        '<br/><strong>Área: </strong>'.'N/A';
-                }else{
-                $cadena='<strong>Delegación: </strong>'.$value['name'].
-                        '<br/><strong>Teléfono: </strong>'.$value['phone'].
-                        '<br/><strong>Área: </strong>'.$value['area'];
+                $count++;
+                if ($count==$indice) {
+                        if ($value['area']==NULL) {
+                            $cadena='<strong>Delegación: </strong>'.$value['name'].
+                                '<br/><strong>Teléfono: </strong>'.$value['phone'].
+                                '<br/><strong>Área: </strong>'.'N/A';
+                        }else{
+                        $cadena='<strong>Delegación: </strong>'.$value['name'].
+                                '<br/><strong>Teléfono: </strong>'.$value['phone'].
+                                '<br/><strong>Área: </strong>'.$value['area'];
+                        }
+                        $filas2['id']=$value['delegation_id'];
+                        $filas2['name']=$cadena;
+                        $filas3[]=$filas2;
                 }
-                $filas2['id']=$value['delegation_id'];
-                $filas2['name']=$cadena;
-                $filas3[]=$filas2;
                 /*array_push($filas2,$value['id'] );
                 array_push($filas2, $cadena);*/
             }
@@ -656,7 +664,7 @@ product_brands.name as marca,
                                         inner join syndicate_categories 
                                         on syndicates.syndicate_category_id=syndicate_categories.id
                                         where syndicates.id=$idelemento
-                                        limit $limit, 10", $conexion) or
+                                        ", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -692,7 +700,7 @@ product_brands.name as marca,
                                         inner join cooperative_types 
                                         on cooperatives.cooperative_type_id=cooperative_types.id 
                                         where cooperatives.id=$idelemento
-                                        limit $limit, 10", $conexion) or
+                                        ", $conexion) or
 
          die(json_encode($respuesta));
           $filas=array();
@@ -736,7 +744,7 @@ product_brands.name as marca,
                                         inner join delation_institutions 
                                         on delation_infos.delation_institution_id=delation_institutions.id 
                                         where delegation_infos.id=$idelemento
-                                        limit $limit, 10", $conexion) or
+                                        ", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -779,7 +787,7 @@ product_brands.name as marca,
                                         FROM refuges 
                                         inner join cities on refuges.city_id=cities.id 
                                         where refuges.id=$idelemento
-                                        limit $limit, 10", $conexion) or
+                                        ", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -823,7 +831,7 @@ product_brands.name as marca,
          $registros=mysql_query("SELECT id, code, name, kind, email, phone
                                 FROM risk_prevention_consultants 
                                 where id=$idelemento
-                                limit $limit, 10", $conexion) or
+                                ", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -853,7 +861,7 @@ product_brands.name as marca,
         $registros=mysql_query("SELECT id, name, code1, code2, code3, registered_at
                                 FROM telephone_companies_concessions 
                                 where id=$idelemento
-                                limit $limit, 10", $conexion) or
+                                ", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -882,7 +890,7 @@ product_brands.name as marca,
                                     freq_tx, freq_rx, ab, power, coverage 
                                     FROM radial_frequencies 
                                     where id=$idelemento
-                                    limit $limit, 10", $conexion) or
+                                    ", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -915,7 +923,7 @@ product_brands.name as marca,
             $registros=mysql_query("SELECT id, name, acronym, kind, coverage
                                     FROM radial_concessions 
                                     where id=$idelemento
-                                    limit $limit, 10", $conexion) or
+                                    ", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -947,7 +955,7 @@ product_brands.name as marca,
                                         responsible
                                         FROM roads 
                                         where id =$idelemento
-                                        limit $limit, 10", $conexion) or
+                                        ", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -977,7 +985,7 @@ product_brands.name as marca,
         $registros=mysql_query("SELECT id, name, acronym, kind, contact, charge, phone, email, address
                                 FROM disabled_associations  
                                 where id=$idelemento
-                                limit $limit, 10", $conexion) or
+                                ", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -1010,7 +1018,7 @@ product_brands.name as marca,
          $registros=mysql_query("SELECT id, name, phone, email
                                 FROM fovial_companies 
                                 where id=$idelemento
-                                limit $limit, 10", $conexion) or
+                                ", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -1049,7 +1057,7 @@ product_brands.name as marca,
          $registros=mysql_query("SELECT id, name, address, contact_person, contact_phone, contact_email, schedule
                                 FROM woman_cities   
                                 where id=$idelemento
-                                limit $limit, 10", $conexion) or
+                                ", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -1092,7 +1100,7 @@ product_brands.name as marca,
                                     INNER JOIN municipal_jobs ON municipal_jobs.id = municipality_infos.municipal_job_id
                                     INNER JOIN political_parties ON political_parties.id = political_party_id 
                                     where municipality_infos.id=$idelemento
-                                    limit $limit, 10", $conexion) or
+                                    ", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -1127,7 +1135,7 @@ product_brands.name as marca,
              $registros=mysql_query("SELECT id, name, amount, total_men, total_women
                                     FROM sports_grants 
                                     where id=$idelemento
-                                    limit $limit, 10", $conexion) or
+                                    ", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -1158,7 +1166,7 @@ product_brands.name as marca,
              $registros=mysql_query("SELECT id, name, approved_amount, executed_amount, extra_amount
                                     FROM sports_federation_transfers 
                                     where id=$idelemento
-                                    limit $limit, 10", $conexion) or
+                                    ", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -1209,7 +1217,7 @@ product_brands.name as marca,
                             INNER JOIN cultural_fee_price_types ON cultural_fee_price_types.id = cultural_fees.cultural_fee_price_type_id 
                             inner join  cultural_fee_place_contacts on  cultural_fee_place_contacts.cultural_fee_place_id=cultural_fees.id
                             where cultural_fees.id=$idelemento
-                            limit $limit, 10", $conexion) or
+                            ", $conexion) or
 
          die(json_encode($respuesta));
           $filas=array();
@@ -1250,7 +1258,7 @@ product_brands.name as marca,
                                     FROM natives
                                     inner join cities on cities.id=natives.city_id 
                                     where natives.id=$idelemento
-                                    limit $limit, 10", $conexion) or
+                                    ", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -1278,7 +1286,7 @@ product_brands.name as marca,
              $registros=mysql_query("SELECT id, name, address, phone, schedule, kind
                                     FROM libraries 
                                     where id=$idelemento
-                                    limit $limit, 10", $conexion) or
+                                    ", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
@@ -1322,7 +1330,7 @@ product_brands.name as marca,
     break;
 
     default://EN CASO DE EXISTIR LA TABLA Y TENGA ID Y NOMBRE SE EJECUTA ESTE CASO
-         $registros=mysql_query("SELECT id, name FROM $tabla[$idsubcat] where id =$idelemento limit $limit, 10", $conexion) or
+         $registros=mysql_query("SELECT id, name FROM $tabla[$idsubcat] where id =$idelemento ", $conexion) or
          die(json_encode($respuesta));
           $filas=array();
             while ($reg=mysql_fetch_assoc($registros))
