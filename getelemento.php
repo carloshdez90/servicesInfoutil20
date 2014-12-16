@@ -3,17 +3,16 @@
 recibe como parametros: el nombre de la tabla de la sub categoría.
 
 */	
+    include 'conexion.php';
 
 	header('Content-Type: text/json');
 	$idsubcat=$_REQUEST['idsubcat'];
-	$servidor="infoutil20db.fernandomarroquin.com";
-	$usuario="infoutil20db";
-	$password="payaso21";
+	
 	$respuesta=array('resultado'=>2);
 	json_encode($respuesta);
 	$conexion=mysql_connect($servidor,$usuario,$password) or
 	die ("Problemas en la conexion");
-	$baseDatos="infoutil20";
+	
 	mysql_select_db($baseDatos,$conexion)
 	or
 	 die("Problemas en la seleccion de la base de datos");

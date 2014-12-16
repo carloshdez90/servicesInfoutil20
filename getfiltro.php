@@ -2,16 +2,16 @@
 /*Servicio que devuelve un arreglo de objetos JSON con los filtros para cada categoría
 recibe como parametros un entero que es el id de la subcategoría:
 */
-	header('Content-Type: text/json');
+	include 'conexion.php';
+
+    header('Content-Type: text/json');
 	$SUBCAT_ID=$_REQUEST['SUBCAT_ID'];
-	$servidor="infoutil20db.fernandomarroquin.com";
-	$usuario="infoutil20db";
-	$password="payaso21";
+	
 	$respuesta=array('resultado'=>2);
 	json_encode($respuesta);
 	$conexion=mysql_connect($servidor,$usuario,$password) or
 	die ("Problemas en la conexion");
-	$baseDatos="infoutil20";
+
 	mysql_select_db($baseDatos,$conexion)
 	or
 	 die("Problemas en la seleccion de la base de datos");
